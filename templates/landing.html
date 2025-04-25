@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EncroGuard</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      </head>
+<body>
+    
+    <!-- Header -->
+    <header id="header-container" class="text-gray-400 body-font fixed top-0 w-full z-50 ">
+      <div class="container mx-auto flex flex-wrap p-2 items-center justify-between">
+        <a class="flex title-font font-medium items-center text-white">
+          
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+          </svg>
+          <span class="ml-3 text-xl">EncroGuard</span>
+        </a>
+        <nav class="flex flex-wrap items-center text-base justify-center">
+          <a href="/login#signup-container" class="mx-4 hover:text-white  text-white">Home</a>
+         
+          <a href="/contactus" class="mx-4 hover:text-white  text-white">Contact Us</a>
+        </nav>
+      </div>
+    </header>
+    
+  
+  <section id="blank-space" class="text-black  body-font py-12">
+    <div class="container mx-auto">
+      <!-- Empty section with padding for blank space -->
+    </div>
+  </section>
+
+
+  <section class="py-16 slide-up-animation">
+    <div class="container mx-auto text-center button">
+      <h2 class="text-6xl font-bold mb-4 text-gray-100 typewriter" id="typewriter-text">
+        Monitor and Detect Encroachments
+      </h2>
+      <p class="text-gray-400 mb-4">
+        A smart tool integrated with Ai to identify and analyze encroachment areas in real-time.
+      </p>
+    </div>
+  </section>
+  
+
+  
+  <section id="map-section" class="py-4 slide-up-animation"> <!-- Reduced padding -->
+    <div class="container mx-auto px-6 py-4 rounded-lg"> <!-- Curved container with padding -->
+      <h3 class="text-2xl font-bold mb-4 text-gray-100 text-center"> <!-- Centered map heading -->
+        Tap anywhere on the Map!
+      </h3>
+      <a href="/login" class="block"> <!-- Makes the map clickable -->
+        <div id="map" class="h-96 w-full rounded-lg"></div> <!-- Map inside the curved container -->
+      </a>
+    </div>
+  </section>
+  
+  
+  
+
+    <section class="text-gray-400 body-font">
+        <div class="container px-5 py-24 mx-auto">
+          <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-800 sm:flex-row flex-col">
+            <div class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full text-indigo-400 bg-gray-800 flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="sm:w-16 sm:h-16 w-10 h-10" viewBox="0 0 24 24">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
+            <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
+              <h2 class="text-white text-lg title-font font-medium mb-2">Accurate Detection</h2>
+              <p class="leading-relaxed text-base">By using lastest Ai YOLO model, This application detects illegally build areas</p>
+              <a href="https://medium.com/@xis.ai/yolov9-the-latest-version-in-the-yolo-series-3dd609571613#:~:text=YOLOv9%2C%20the%20latest%20version%20in,Chien%2DYao%20Wang%20and%20colleagues." class="mt-3 text-indigo-400 inline-flex items-center">Learn More
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-800 sm:flex-row flex-col">
+            <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
+              <h2 class="text-white text-lg title-font font-medium mb-2">Illegal area marked</h2>
+              <p class="leading-relaxed text-base">Using Advanced machine learning algorithms and Image Processing techniques we will mark the areas which triggers the Encroachment Limitations</p>
+              <a href=" " class="mt-3 text-indigo-400 inline-flex items-center">Learn More
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="sm:w-32 order-first sm:order-none sm:h-32 h-10 w-10 sm:ml-10 inline-flex items-center justify-center rounded-full text-indigo-400 bg-gray-800 flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="01" class="sm:w-16 sm:h-16 w-10 h-10" viewBox="0 0 24 24">        
+                <path d="M6 6V2c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-4v4a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8c0-1.1.9-2 2-2zm2 0h4a2 2 0 0 1 2 2v4h4V2H8zM2 8v10h10V8z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="flex items-center lg:w-3/5 mx-auto sm:flex-row flex-col">
+            <div class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full text-indigo-400 bg-gray-800 flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="sm:w-16 sm:h-16 w-10 h-10" viewBox="0 0 24 24">
+                <path d="M0 2C0 .9.9 0 2 0h14l4 4v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm5 0v6h10V2zm6 1h3v4h-3z"></path>
+              </svg>
+            </div>
+            <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
+              <h2 class="text-white text-lg title-font font-medium mb-2">Maintaining Records</h2>
+              <p class="leading-relaxed text-base">We will keep your processed Records safe with us so you can access them as evidence any time you want.</p>
+              <a class="mt-3 text-indigo-400 inline-flex items-center">Learn More
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+          <a href="#map-section" class="w-full"> <!-- Wrap the button in an anchor tag for navigation -->
+            <button class="flex mx-auto mt-20 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg w-1/5 sm:w-45 md:w-26"> <!-- Adjustable width -->
+              Get Started → 
+            </button>
+          </a>          
+        </div>
+      </section>
+
+
+      <footer class="text-gray-400 bg-black body-font">
+        <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+          <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
+           
+            <span class="ml-3 text-xl">EncroGuard</span>
+          </a>
+          <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">Ai based Detection System —
+            <a class="text-gray-500 ml-1" target="_blank" rel="noopener noreferrer">
+              Follow the Law<br>
+              Not the Flaw
+            </a>
+            
+          </p>
+          <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+            <a class="text-gray-400">
+              <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+              </svg>
+            </a>
+            <a class="ml-3 text-gray-400">
+              <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+              </svg>
+            </a>
+            <a class="ml-3 text-gray-400">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+              </svg>
+            </a>
+            <a class="ml-3 text-gray-400">
+              <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+                <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+                <circle cx="4" cy="4" r="2" stroke="none"></circle>
+              </svg>
+            </a>
+          </span>
+        </div>
+      </footer>
+      
+
+      <script>
+        // Initialize the Leaflet map
+        var map = L.map('map', {
+          zoomControl: false,  // Disable the zoom controls (buttons)
+          attributionControl: false  // Disable the attribution control (text)
+        }).setView([24.9255, 67.0867], 13); // Centered on Gulshan-e-Iqbal, Karachi
+    
+        // Add the tile layer without zoom controls and attribution
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19
+        }).addTo(map);
+      </script>
+
+
+      <style>
+
+        body {
+              /* Set the background image */
+              background-image: url('static/bg1.jpg'); 
+              /* Make the background cover the entire screen */
+              background-size: cover; 
+              /* Center the image */
+              background-position: center; 
+              /* Prevent scrolling the background */
+              background-attachment: fixed;
+              height: 100vh; /* Full viewport height */
+              margin: 0; /* Remove default margin */
+            }
+        
+        /* Slide-Up Animation */
+        @keyframes slideUp {
+           0% {
+             transform: translateY(20px);
+             opacity: 0;
+           }
+           100% {
+             transform: translateY(0);
+             opacity: 1;
+           }
+         }
+       
+         .leaflet-top.leaflet-left {
+             margin-top: 80px; /* Adjust the value based on your header height */
+         }
+           .leaflet-control-attribution {
+             margin-bottom: 40px; /* Add margin to avoid overlap with content */
+         }
+         .slide-up-animation {
+           animation: slideUp 1s ease-out;
+         }
+       
+        button {
+         height: 50px;
+         margin: 5px;
+         width: 150px;
+         background: #333;
+         -webkit-box-pack: center;
+         -ms-flex-pack: center;
+         justify-content: center;
+         cursor: pointer;
+         -webkit-box-align: center;
+         -ms-flex-align: center;
+         align-items: center;
+         font-family: Consolas, Courier New, monospace;
+         border: solid #404c5d 1px;
+         font-size: 16px;
+         color: rgb(161, 161, 161);
+         -webkit-transition: 500ms;
+         transition: 500ms;
+         border-radius: 5px;
+         background: linear-gradient(145deg, #2e2d2d, #212121);
+         -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+           inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+         box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+           inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+       }
+       
+       button:hover {
+         -webkit-box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
+         box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
+         color: #d6d6d6;
+         -webkit-transition: 500ms;
+         transition: 500ms;
+       }
+       
+       button:active {
+         -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+         box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+         color: #d6d6d6;
+         -webkit-transition: 100ms;
+         transition: 100ms;
+       }
+       
+       
+         /* Header Styles */
+         #header-container {
+            background: black;
+            position: fixed;
+            width: 100%;
+            z-index: 1000; /* High enough to be above other elements */
+            padding: 10px 0;
+            box-shadow: 0 0 15px 5px rgba(75, 85, 99, 0.7);
+        }
+
+            /* Add padding to the map section to avoid overlap */
+        #map-section {
+            padding-top: 100px; /* Adjust to match the header height */
+            /* background-color: #1f2937; Same as current section background for consistency */
+        }
+         /* Glow Animation on Hover (Optional) */
+         #header-container:hover {
+           box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.8); /* Stronger glow on hover */
+           transition: box-shadow 0.3s ease-in-out;
+         }
+         /* Form Input Styles */
+         #signup-container .container {
+           display: flex;
+           flex-direction: column;
+           gap: 7px;
+           position: relative;
+           color: white;
+         }
+       
+         #signup-container .label {
+           font-size: 15px;
+           padding-left: 10px;
+           position: absolute;
+           top: 13px;
+           transition: 0.3s;
+           pointer-events: none;
+         }
+       
+         #signup-container .input {
+           width: 100%;
+           height: 45px;
+           border: none;
+           outline: none;
+           padding: 0px 10px;
+           border-radius: 6px;
+           color: #fff;
+           font-size: 15px;
+           background-color: transparent;
+           box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+                       -1px -1px 6px rgba(255, 255, 255, 0.4);
+         }
+       
+         #signup-container .input:focus,
+         #signup-container .input:valid {
+           box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+                       -1px -1px 6px rgba(255, 255, 255, 0.4),
+                       inset 3px 3px 10px rgba(0, 0, 0, 1),
+                       inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+         }
+       
+         #signup-container .input:focus ~ .label,
+         #signup-container .input:valid ~ .label {
+           transition: 0.3s;
+           padding-left: 2px;
+           transform: translateY(-35px);
+         }
+
+
+          /* Typewriter effect without cursor */
+          @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+          }
+
+          .typewriter {
+            display: inline-block;
+            overflow: hidden; /* Ensures only visible text shows */
+            white-space: nowrap; /* Prevents wrapping */
+            animation: typewriter 4s steps(30, end); /* Typewriter animation only */
+            max-width: 100%; /* Adjust as needed */
+          }
+
+
+       </style>
+       
+
+
+</body>
+</html>

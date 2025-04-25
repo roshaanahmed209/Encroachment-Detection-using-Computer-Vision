@@ -1,0 +1,6 @@
+env/
+__pycache__/
+output_model/
+best_model_weights.pt
+best_model_weights_site_map.pt
+yolov8m-seg.pt

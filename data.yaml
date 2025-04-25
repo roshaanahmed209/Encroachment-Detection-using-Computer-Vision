@@ -1,0 +1,14 @@
+
+train: roboflow_dataset/train/images
+val: roboflow_dataset/valid/images
+
+nc: 1
+names: ['Buildings']
+
+roboflow:
+  workspace: encroachment
+  project: encroachment-dwic8
+  version: 24
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/encroachment/encroachment-dwic8/dataset/24
+        

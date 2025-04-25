@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EncroGuard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header id="header-container" class="text-gray-400 bg-black body-font fixed top-0 w-full z-50 shadow-md">
+      <div class="container mx-auto flex flex-wrap p-2 items-center justify-between">
+        <a class="flex title-font font-medium items-center text-white">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+          </svg>
+          <span class="ml-3 text-xl">EncroGuard</span>
+        </a>
+        <nav class="flex flex-wrap items-center text-base justify-center">
+          <a href="/home" class="mx-4 hover:text-white">Home</a>
+          <a href="#upload-section" class="mx-4 hover:text-white">Upload Image</a>
+          <a href="/history" class="mx-4 hover:text-white">History</a>
+          <a href="/contactus" class="mx-4 hover:text-white">Contact Us</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Blank Space -->
+    <section id="blank-space" class="text-black body-font py-12">
+      <div class="container mx-auto">
+        <!-- Empty section with padding for blank space -->
+      </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="py-16 slide-up-animation">
+      <div class="container mx-auto text-center button">
+        <h2 class="text-6xl font-bold mb-4 text-gray-100 typewriter" id="typewriter-text">
+          Analyzation Complete. . .
+        </h2>
+      </div>
+    </section>
+
+    <section class="text-gray-400 body-font">
+        <div class="container px-5 py-24 mx-auto flex flex-wrap">
+          <div class="flex flex-wrap w-full">
+            <div class="lg:w-2/5 md:w-1/2 md:pr-10 md:py-6">
+              <div class="flex relative pb-12">
+                <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                  <div class="h-full w-1 bg-gray-800 pointer-events-none"></div>
+                </div>
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </div>
+                <div class="flex-grow pl-4">
+                  <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Accuracy</h2>
+                  <p class="leading-relaxed">accuracy score</p>
+                </div>
+              </div>
+              <div class="flex relative pb-12">
+                <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                  <div class="h-full w-1 bg-gray-800 pointer-events-none"></div>
+                </div>
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                  </svg>
+                </div>
+                <div class="flex-grow pl-4">
+                  <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Detection</h2>
+                  <p class="leading-relaxed">detected areas:</p>
+                </div>
+              </div>
+              <div class="flex relative pb-12">
+                <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                  <div class="h-full w-1 bg-gray-800 pointer-events-none"></div>
+                </div>
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                    <circle cx="12" cy="5" r="3"></circle>
+                    <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"></path>
+                  </svg>
+                </div>
+                <div class="flex-grow pl-4">
+                  <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Report generation</h2>
+                  <p class="leading-relaxed">report if detected areas or clear whatever the case</p>
+                </div>
+              </div>
+              <div class="flex relative pb-12">
+                <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                  <div class="h-full w-1 bg-gray-800 pointer-events-none"></div>
+                </div>
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </div>
+                <div class="flex-grow pl-4">
+                  <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Saving results</h2>
+                  <p class="leading-relaxed">saving results loading animation.</p>
+                </div>
+              </div>
+              <div class="flex relative">
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                    <path d="M22 4L12 14.01l-3-3"></path>
+                  </svg>
+                </div>
+                <div class="flex-grow pl-4">
+                  <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">FINISH</h2>
+                  <p class="leading-relaxed">Your results are evaluated</p>
+                </div>
+              </div>
+            </div>
+            <img id="uploaded-image" class="object-cover object-center rounded" alt="Uploaded Image" />
+          </div>
+        </div>
+      </section>
+
+
+    <footer class="text-gray-400 bg-black body-font">
+      <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+        <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
+          <span class="ml-3 text-xl">EncroGuard</span>
+        </a>
+        <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">Ai based Detection System —
+          <a class="text-gray-500 ml-1" target="_blank" rel="noopener noreferrer">
+            Follow the Law<br>
+            Not the Flaw
+          </a>
+        </p>
+      </div>
+    </footer>  
+
+
+      <style>
+
+        body {
+              /* Set the background image */
+              background-image: url('static/bg1.jpg'); 
+              /* Make the background cover the entire screen */
+              background-size: cover; 
+              /* Center the image */
+              background-position: center; 
+              /* Prevent scrolling the background */
+              background-attachment: fixed;
+              height: 100vh; /* Full viewport height */
+              margin: 0; /* Remove default margin */
+            }
+        
+        /* Slide-Up Animation */
+        @keyframes slideUp {
+           0% {
+             transform: translateY(20px);
+             opacity: 0;
+           }
+           100% {
+             transform: translateY(0);
+             opacity: 1;
+           }
+         }
+       
+         .leaflet-top.leaflet-left {
+             margin-top: 80px; /* Adjust the value based on your header height */
+         }
+           .leaflet-control-attribution {
+             margin-bottom: 40px; /* Add margin to avoid overlap with content */
+         }
+         .slide-up-animation {
+           animation: slideUp 1s ease-out;
+         }
+       
+        button {
+         height: 50px;
+         margin: 5px;
+         width: 150px;
+         background: #333;
+         -webkit-box-pack: center;
+         -ms-flex-pack: center;
+         justify-content: center;
+         cursor: pointer;
+         -webkit-box-align: center;
+         -ms-flex-align: center;
+         align-items: center;
+         font-family: Consolas, Courier New, monospace;
+         border: solid #404c5d 1px;
+         font-size: 16px;
+         color: rgb(161, 161, 161);
+         -webkit-transition: 500ms;
+         transition: 500ms;
+         border-radius: 5px;
+         background: linear-gradient(145deg, #2e2d2d, #212121);
+         -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+           inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+         box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+           inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+       }
+       
+       button:hover {
+         -webkit-box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
+         box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
+         color: #d6d6d6;
+         -webkit-transition: 500ms;
+         transition: 500ms;
+       }
+       
+       button:active {
+         -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+         box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+         color: #d6d6d6;
+         -webkit-transition: 100ms;
+         transition: 100ms;
+       }
+       
+       
+         /* Header Styles */
+         #header-container {
+            background: black;
+            position: fixed;
+            width: 100%;
+            z-index: 1000; /* High enough to be above other elements */
+            padding: 10px 0;
+            box-shadow: 0 0 15px 5px rgba(75, 85, 99, 0.7);
+        }
+
+            /* Add padding to the map section to avoid overlap */
+        #map-section {
+            padding-top: 100px; /* Adjust to match the header height */
+            /* background-color: #1f2937; Same as current section background for consistency */
+        }
+         /* Glow Animation on Hover (Optional) */
+         #header-container:hover {
+           box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.8); /* Stronger glow on hover */
+           transition: box-shadow 0.3s ease-in-out;
+         }
+         /* Form Input Styles */
+         #signup-container .container {
+           display: flex;
+           flex-direction: column;
+           gap: 7px;
+           position: relative;
+           color: white;
+         }
+       
+         #signup-container .label {
+           font-size: 15px;
+           padding-left: 10px;
+           position: absolute;
+           top: 13px;
+           transition: 0.3s;
+           pointer-events: none;
+         }
+       
+         #signup-container .input {
+           width: 100%;
+           height: 45px;
+           border: none;
+           outline: none;
+           padding: 0px 10px;
+           border-radius: 6px;
+           color: #fff;
+           font-size: 15px;
+           background-color: transparent;
+           box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+                       -1px -1px 6px rgba(255, 255, 255, 0.4);
+         }
+       
+         #signup-container .input:focus,
+         #signup-container .input:valid {
+           box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+                       -1px -1px 6px rgba(255, 255, 255, 0.4),
+                       inset 3px 3px 10px rgba(0, 0, 0, 1),
+                       inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+         }
+       
+         #signup-container .input:focus ~ .label,
+         #signup-container .input:valid ~ .label {
+           transition: 0.3s;
+           padding-left: 2px;
+           transform: translateY(-35px);
+         }
+
+
+          /* Typewriter effect without cursor */
+          @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+          }
+
+          .typewriter {
+            display: inline-block;
+            overflow: hidden; /* Ensures only visible text shows */
+            white-space: nowrap; /* Prevents wrapping */
+            animation: typewriter 4s steps(30, end); /* Typewriter animation only */
+            max-width: 100%; /* Adjust as needed */
+          }
+
+
+       </style>
+       
+
+       <script>
+        window.onload = function() {
+          var uploadedImage = localStorage.getItem("uploadedImage");
+      
+          // Check if the image exists in localStorage and display it
+          if (uploadedImage) {
+            var imageElement = document.getElementById("uploaded-image");
+            imageElement.src = uploadedImage;
+          }
+        }
+      </script>
+
+
+
+</body>
+</html>
