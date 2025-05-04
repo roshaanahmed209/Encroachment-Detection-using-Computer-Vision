@@ -57,7 +57,9 @@
                 </div>
                 <div class="flex-grow pl-4">
                   <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Accuracy</h2>
-                  <p class="leading-relaxed">accuracy score</p>
+                  <p class="leading-relaxed">
+                    {{ accuracy if accuracy is not none else "N/A" }}
+                  </p>
                 </div>
               </div>
               <div class="flex relative pb-12">
@@ -85,6 +87,7 @@
                   </svg>
                 </div>
                 <div class="flex-grow pl-4">
+                  <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Matched File</h2>
                   <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Report generation</h2>
                   <p class="leading-relaxed">report if detected areas or clear whatever the case</p>
                 </div>

@@ -1,120 +1,87 @@
 import cv2
 import numpy as np
 import json
+import os
 
-def create_mask_from_json(json_data, image_shape):
-    """
-    Creates a segmentation mask from JSON data containing segmentation values.
-    """
-    mask = np.zeros(image_shape[:2], dtype=np.uint8)  # Initialize an empty mask
+def create_individual_masks(json_data, image_shape):
+    masks = []
     if "segments" in json_data:
         for segment in json_data["segments"]:
+            mask = np.zeros(image_shape[:2], dtype=np.uint8)
             polygon = np.array(segment, dtype=np.int32)
-            cv2.fillPoly(mask, [polygon], 255)  # Fill the polygons on the mask
+            cv2.fillPoly(mask, [polygon], 255)
+            masks.append(mask)
     else:
         raise ValueError("JSON data does not contain 'segments' key.")
+    return masks
 
-    return mask
+def create_combined_mask(masks):
+    combined = np.zeros_like(masks[0])
+    for mask in masks:
+        combined = cv2.bitwise_or(combined, mask)
+    return combined
 
 def calculate_iou(mask1, mask2):
-    """
-    Calculates the Intersection over Union (IoU) between two binary masks.
-    """
     intersection = np.logical_and(mask1, mask2)
     union = np.logical_or(mask1, mask2)
-    iou = np.sum(intersection) / np.sum(union)
-    return iou
+    if np.sum(union) == 0:
+        return 0.0
+    return np.sum(intersection) / np.sum(union)
 
-def detect_encroachments(uploaded_mask, sitemap_mask, iou_threshold=0.1):
-    """
-    Detects encroachments by comparing the uploaded mask with the sitemap mask.
-    Returns a mask highlighting encroachments.
-    """
-    encroachment_mask = np.zeros_like(uploaded_mask)
+def detect_encroachments(google_masks, sitemap_masks, google_json, iou_threshold=0.1):
+    encroachment_mask = np.zeros_like(google_masks[0])
+    individual_encroachment_segments = []
 
-    # Find contours in the uploaded mask
-    contours, _ = cv2.findContours(uploaded_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    for g_mask, g_segment in zip(google_masks, google_json["segments"]):
+        matched = any(calculate_iou(g_mask, s_mask) >= iou_threshold for s_mask in sitemap_masks)
+        if not matched:
+            encroachment_mask = cv2.add(encroachment_mask, g_mask)
+            individual_encroachment_segments.append(g_segment)  # Save unmatched segment
 
-    for contour in contours:
-        # Create a mask for the current building
-        building_mask = np.zeros_like(uploaded_mask)
-        cv2.drawContours(building_mask, [contour], -1, 255, thickness=cv2.FILLED)
+    return encroachment_mask, individual_encroachment_segments
 
-        # Calculate IoU with the sitemap mask
-        iou = calculate_iou(building_mask, sitemap_mask)
+def mark_encroachments_blend(google_image, encroachment_mask):
+    overlay = google_image.copy()
+    red = np.zeros_like(google_image)
+    red[:, :, 2] = 255
+    mask_bool = encroachment_mask.astype(bool)
+    overlay[mask_bool] = cv2.addWeighted(google_image[mask_bool], 0.5, red[mask_bool], 0.5, 0)
+    return overlay
 
-        # If IoU is below the threshold, mark as encroachment
-        if iou < iou_threshold:
-            encroachment_mask = cv2.add(encroachment_mask, building_mask)
+def process_and_save(google_image_path, google_json_path,
+                     sitemap_image_path, sitemap_json_path,
+                     output_folder="resultant"):
+    os.makedirs(output_folder, exist_ok=True)
 
-    return encroachment_mask
+    # Load images
+    google_image = cv2.imread(google_image_path)
+    sitemap_image = cv2.imread(sitemap_image_path)
+    if google_image is None or sitemap_image is None:
+        raise ValueError("Could not load one or both images.")
 
-def mark_encroachments(image, encroachment_mask):
-    """
-    Marks encroachments on the image with a see-through red color.
-    """
-    # Create a red overlay
-    red_overlay = np.zeros_like(image)
-    red_overlay[:, :, 2] = 255  # Set red channel to maximum
+    # Load JSONs
+    with open(google_json_path, "r") as f:
+        google_json = json.load(f)
+    with open(sitemap_json_path, "r") as f:
+        sitemap_json = json.load(f)
 
-    # Blend the red overlay with the image
-    blended_image = cv2.addWeighted(image, 0.7, red_overlay, 0.3, 0)
-
-    # Apply the encroachment mask
-    blended_image[encroachment_mask == 255] = red_overlay[encroachment_mask == 255]
-
-    return blended_image
-
-def process_encroachment_detection(uploaded_image_path, sitemap_image_path, json_path):
-    """
-    Processes the uploaded image and the closest matching sitemap to detect encroachments.
-    """
-    # Load the uploaded image
-    uploaded_image = cv2.imread(uploaded_image_path)
-    if uploaded_image is None:
-        raise ValueError("Failed to load the uploaded image.")
-
-    # Load the closest matching sitemap image
-    sitemap_image = cv2.imread(sitemap_image_path, cv2.IMREAD_GRAYSCALE)
-    if sitemap_image is None:
-        raise ValueError("Failed to load the sitemap image.")
-
-    # Load segmentation JSON
-    with open(json_path, "r") as json_file:
-        json_data = json.load(json_file)
-
-    # Create segmentation mask from JSON data
-    uploaded_mask = create_mask_from_json(json_data, uploaded_image.shape)
-
-    # Resize the sitemap mask to match the uploaded image dimensions
-    sitemap_mask = cv2.resize(sitemap_image, (uploaded_mask.shape[1], uploaded_mask.shape[0]))
+    # Create masks
+    google_masks = create_individual_masks(google_json, google_image.shape)
+    sitemap_masks = create_individual_masks(sitemap_json, sitemap_image.shape)
+    sitemap_masks_resized = [cv2.resize(mask, (google_image.shape[1], google_image.shape[0])) for mask in sitemap_masks]
 
     # Detect encroachments
-    encroachment_mask = detect_encroachments(uploaded_mask, sitemap_mask)
+    encroachment_mask, encroachment_segments = detect_encroachments(google_masks, sitemap_masks_resized, google_json)
 
-    # Mark encroachments on the uploaded image
-    result_image = mark_encroachments(uploaded_image, encroachment_mask)
+    # Overlay
+    result_image = mark_encroachments_blend(google_image, encroachment_mask)
 
-    return result_image
+    # Save image and JSON
+    result_image_path = os.path.join(output_folder, "encroachment_result.png")
+    result_json_path = os.path.join(output_folder, "encroachment_mask.json")
+    cv2.imwrite(result_image_path, result_image)
+    with open(result_json_path, "w") as f:
+        json.dump({"segments": encroachment_segments}, f, indent=2)
 
-# Example usage
-if __name__ == "__main__":
-    # Paths to the uploaded image, closest matching sitemap, and segmentation JSON
-    uploaded_image_path = "uploaded_image.jpg"
-    sitemap_image_path = "closest_match_sitemap.jpg"
-    json_path = "segmentation_results.json"
-
-    try:
-        # Process the images to detect encroachments
-        result_image = process_encroachment_detection(uploaded_image_path, sitemap_image_path, json_path)
-
-        # Display the result
-        cv2.imshow("Encroachment Detection", result_image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-        # Save the result
-        cv2.imwrite("encroachment_result.jpg", result_image)
-        print("Encroachment detection completed. Result saved as 'encroachment_result.jpg'.")
-    except Exception as e:
-        print(f"Error: {e}")
+    # Return useful info for the web
+    return result_image_path, result_json_path, len(encroachment_segments)

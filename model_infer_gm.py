@@ -38,7 +38,8 @@ def segment_google_map(image_path):
 
 def process_image(image_path):
     """
-    Processes a Google Map image, saves the segmentation results as a JSON file, and returns the file path.
+    Processes a Google Map image, saves the segmentation results as a JSON file and annotated image,
+    and returns their file paths.
     """
     print("Image uploaded and saved successfully.")
 
@@ -46,43 +47,33 @@ def process_image(image_path):
         # Perform segmentation
         annotated_image, segmentation_mask, segments = segment_google_map(image_path)
 
-        # Convert the annotated image to a format suitable for return
-        _, annotated_image_encoded = cv2.imencode('.jpg', annotated_image)
-        annotated_image_b64 = base64.b64encode(annotated_image_encoded).decode('utf-8')
-
-        # Convert the segmentation mask to a PIL image
-        mask_pil = Image.fromarray(segmentation_mask)
-
-        # Convert the PIL image to a base64-encoded string
-        mask_io = io.BytesIO()
-        mask_pil.save(mask_io, format='PNG')
-        mask_io.seek(0)
-        mask_b64 = base64.b64encode(mask_io.getvalue()).decode('utf-8')
-
-        # Create results dictionary
-        results = {
-            "message": "Segmentation performed successfully",
-            "segmentation_mask_b64": mask_b64,
-            "annotated_image_b64": annotated_image_b64,
-            "segments": segments,  # Include polygon data
-            "success": True
-        }
-
-        # Define the directory to save JSON files
-        save_dir = "segmentation_results"
+        # Prepare save directory
+        save_dir = "from_web_1"
         os.makedirs(save_dir, exist_ok=True)
 
         # Create a unique filename using timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        json_filename = f"segmentation_results_{timestamp}.json"
-        json_file_path = os.path.join(save_dir, json_filename)
+        base_filename = f"user_input_{timestamp}"
 
-        # Save the results as a JSON file
+        # Save annotated image
+        annotated_image_path = os.path.join(save_dir, f"{base_filename}_annotated.jpg")
+        cv2.imwrite(annotated_image_path, annotated_image)
+
+        # Save segmentation mask as PNG (optional, if you want the mask image)
+        mask_path = os.path.join(save_dir, f"{base_filename}_mask.png")
+        cv2.imwrite(mask_path, segmentation_mask)
+
+        # Save segmentation JSON
+        json_filename = f"{base_filename}_segmentation.json"
+        json_file_path = os.path.join(save_dir, json_filename)
+        results = {
+            "segments": segments
+        }
         with open(json_file_path, "w") as json_file:
             json.dump(results, json_file, indent=4)
 
-        # Return the path to the JSON file
-        return json_file_path
+        # Return the paths to the annotated image and JSON file
+        return annotated_image_path, json_file_path
 
     except Exception as e:
         raise RuntimeError(f"Failed to process image: {e}")
