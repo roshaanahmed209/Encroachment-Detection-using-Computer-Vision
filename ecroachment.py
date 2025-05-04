@@ -39,7 +39,7 @@ def detect_encroachments(google_masks, sitemap_masks, google_json, iou_threshold
             individual_encroachment_segments.append(g_segment)  # Save unmatched segment
 
     return encroachment_mask, individual_encroachment_segments
-
+ 
 def mark_encroachments_blend(google_image, encroachment_mask):
     overlay = google_image.copy()
     red = np.zeros_like(google_image)
