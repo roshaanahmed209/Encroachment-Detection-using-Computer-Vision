@@ -62,19 +62,21 @@ def get_latest_file_by_ext(directory, extensions):
     files.sort(key=lambda x: os.path.getmtime(os.path.join(directory, x)), reverse=True)
     return os.path.join(directory, files[0])
 
-def process_from_matched_dirs(user_dir, sitemap_dir, output_folder="resultant"):
+def process_from_matched_dirs(user_image_path, user_json_path, sitemap_image_path, sitemap_json_path, output_folder="resultant"):
+    """
+    Process the encroachment detection between user uploaded image and sitemap.
+    
+    Args:
+        user_image_path: Path to user image
+        user_json_path: Path to user json segmentation
+        sitemap_image_path: Path to matched sitemap image
+        sitemap_json_path: Path to matched sitemap json segmentation
+        output_folder: Directory to save results
+        
+    Returns:
+        Tuple of (result_image_path, result_json_path, num_encroachments)
+    """
     os.makedirs(output_folder, exist_ok=True)
-
-    image_exts = {'.jpg', '.jpeg', '.png', '.bmp'}
-    json_exts = {'.json'}
-
-    # --- User input
-    user_image_path = get_latest_file_by_ext(user_dir, image_exts)
-    user_json_path = get_latest_file_by_ext(user_dir, json_exts)
-
-    # --- Sitemap (matched) input
-    sitemap_image_path = get_latest_file_by_ext(sitemap_dir, image_exts)
-    sitemap_json_path = get_latest_file_by_ext(sitemap_dir, json_exts)
 
     print("Processing:")
     print(f"User image: {user_image_path}")
