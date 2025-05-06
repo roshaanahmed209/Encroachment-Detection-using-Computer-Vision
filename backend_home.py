@@ -12,10 +12,10 @@ from ecroachment import process_from_matched_dirs
 from display_encr_output import draw_json_mask_overlay
 import json
 
-
+  
 app = Flask(__name__)
 
-# Global variable to track processing status and result
+# Global variable to track processing status 
 processing_status = {"complete": False, "result": None}
 
 # Routes for static HTML pages
