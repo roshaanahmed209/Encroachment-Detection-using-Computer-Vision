@@ -39,9 +39,9 @@ def segment_google_map(image_path):
 def process_image(image_path):
     """
     Processes a Google Map image, saves the segmentation results as a JSON file and annotated image,
-    and returns their file paths.
+    and returns the JSON file path.
     """
-    print("Image uploaded and saved successfully.")
+    print("Processing image:", image_path)
 
     try:
         # Perform segmentation
@@ -72,8 +72,9 @@ def process_image(image_path):
         with open(json_file_path, "w") as json_file:
             json.dump(results, json_file, indent=4)
 
-        # Return the paths to the annotated image and JSON file
-        return annotated_image_path, json_file_path
+        # Return only the JSON file path as expected by backend_home.py
+        print(f"Segmentation results saved to {json_file_path}")
+        return json_file_path
 
     except Exception as e:
         raise RuntimeError(f"Failed to process image: {e}")
@@ -89,6 +90,9 @@ def create_mask_from_json(json_data, image_shape):
             cv2.fillPoly(mask, [points], 255)
     else:
         raise ValueError("JSON data does not contain 'segments' key.")
+    
+
+    print("Mask created successfully.")
     return mask
 
 # if __name__ == "__main__":

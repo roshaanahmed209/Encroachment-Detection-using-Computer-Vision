@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import json
 import os
+import datetime
 
 def create_individual_masks(json_data, image_shape):
     masks = []
@@ -13,12 +14,15 @@ def create_individual_masks(json_data, image_shape):
             masks.append(mask)
     else:
         raise ValueError("JSON data does not contain 'segments' key.")
+    
+    print("masks created successfully.")
     return masks
 
 def create_combined_mask(masks):
     combined = np.zeros_like(masks[0])
     for mask in masks:
         combined = cv2.bitwise_or(combined, mask)
+    print("combined mask created successfully.")
     return combined
 
 def calculate_iou(mask1, mask2):
@@ -26,6 +30,7 @@ def calculate_iou(mask1, mask2):
     union = np.logical_or(mask1, mask2)
     if np.sum(union) == 0:
         return 0.0
+    print("iou calculated successfully.")
     return np.sum(intersection) / np.sum(union)
 
 def detect_encroachments(google_masks, sitemap_masks, google_json, iou_threshold=0.1):
@@ -36,31 +41,55 @@ def detect_encroachments(google_masks, sitemap_masks, google_json, iou_threshold
         matched = any(calculate_iou(g_mask, s_mask) >= iou_threshold for s_mask in sitemap_masks)
         if not matched:
             encroachment_mask = cv2.add(encroachment_mask, g_mask)
-            individual_encroachment_segments.append(g_segment)  # Save unmatched segment
+            individual_encroachment_segments.append(g_segment)
 
+    print("encroachment mask created successfully.")
     return encroachment_mask, individual_encroachment_segments
-  
+
 def mark_encroachments_blend(google_image, encroachment_mask):
     overlay = google_image.copy()
     red = np.zeros_like(google_image)
     red[:, :, 2] = 255
     mask_bool = encroachment_mask.astype(bool)
     overlay[mask_bool] = cv2.addWeighted(google_image[mask_bool], 0.5, red[mask_bool], 0.5, 0)
+    print("encroachment marked successfully.")
     return overlay
- 
-def process_and_save(google_image_path, google_json_path,
-                     sitemap_image_path, sitemap_json_path,
-                     output_folder="resultant"):
+
+def get_latest_file_by_ext(directory, extensions):
+    files = [f for f in os.listdir(directory) if os.path.splitext(f)[1].lower() in extensions]
+    if not files:
+        raise FileNotFoundError(f"No files with extensions {extensions} found in {directory}")
+    files.sort(key=lambda x: os.path.getmtime(os.path.join(directory, x)), reverse=True)
+    return os.path.join(directory, files[0])
+
+def process_from_matched_dirs(user_dir, sitemap_dir, output_folder="resultant"):
     os.makedirs(output_folder, exist_ok=True)
 
+    image_exts = {'.jpg', '.jpeg', '.png', '.bmp'}
+    json_exts = {'.json'}
+
+    # --- User input
+    user_image_path = get_latest_file_by_ext(user_dir, image_exts)
+    user_json_path = get_latest_file_by_ext(user_dir, json_exts)
+
+    # --- Sitemap (matched) input
+    sitemap_image_path = get_latest_file_by_ext(sitemap_dir, image_exts)
+    sitemap_json_path = get_latest_file_by_ext(sitemap_dir, json_exts)
+
+    print("Processing:")
+    print(f"User image: {user_image_path}")
+    print(f"User JSON : {user_json_path}")
+    print(f"Sitemap image: {sitemap_image_path}")
+    print(f"Sitemap JSON : {sitemap_json_path}")
+
     # Load images
-    google_image = cv2.imread(google_image_path)
+    google_image = cv2.imread(user_image_path)
     sitemap_image = cv2.imread(sitemap_image_path)
     if google_image is None or sitemap_image is None:
         raise ValueError("Could not load one or both images.")
 
     # Load JSONs
-    with open(google_json_path, "r") as f:
+    with open(user_json_path, "r") as f:
         google_json = json.load(f)
     with open(sitemap_json_path, "r") as f:
         sitemap_json = json.load(f)
@@ -77,11 +106,18 @@ def process_and_save(google_image_path, google_json_path,
     result_image = mark_encroachments_blend(google_image, encroachment_mask)
 
     # Save image and JSON
-    result_image_path = os.path.join(output_folder, "encroachment_result.png")
-    result_json_path = os.path.join(output_folder, "encroachment_mask.json")
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    result_image_path = os.path.join(output_folder, f"encroachment_result_{timestamp}.png")
+    result_json_path = os.path.join(output_folder, f"encroachment_mask_{timestamp}.json")
     cv2.imwrite(result_image_path, result_image)
     with open(result_json_path, "w") as f:
         json.dump({"segments": encroachment_segments}, f, indent=2)
 
-    # Return useful info for the web
+    print("Encroachment saved successfully.")
     return result_image_path, result_json_path, len(encroachment_segments)
+
+# Uncomment to run directly
+# process_from_matched_dirs(
+#     user_dir=r"H:\fyp\matched\user_in",
+#     sitemap_dir=r"H:\fyp\matched\sitemap"
+# )

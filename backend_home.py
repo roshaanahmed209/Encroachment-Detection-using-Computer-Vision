@@ -8,7 +8,7 @@ import threading
 import time
 import os
 import datetime
-from ecroachment import process_and_save
+from ecroachment import process_from_matched_dirs
 from display_encr_output import draw_json_mask_overlay
 import json
 
@@ -78,7 +78,7 @@ def upload_image():
                 sitemap_json_path = f"segmentation_results/segmentation_results_sitemap_{matched_basename}.json"
 
                 # 3. Encroachment detection
-                result_image_path, result_json_path, num_encroachments = process_and_save(
+                result_image_path, result_json_path, num_encroachments = process_from_matched_dirs(
                     user_image_save_path, user_json_save_path,
                     sitemap_image_path, sitemap_json_path,
                     output_folder="resultant"
@@ -129,7 +129,7 @@ def save_image_locally(decoded_image):
         os.makedirs(save_dir, exist_ok=True)  # Create the directory if it doesn't exist
 
         # Create a unique filename using timestamp
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"user_input_{timestamp}.jpg"
         file_path = os.path.join(save_dir, filename)
 

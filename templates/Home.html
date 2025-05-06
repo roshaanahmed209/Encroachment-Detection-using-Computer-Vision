@@ -72,7 +72,6 @@
             
             <!-- Proceed Button -->
             <button 
-              onclick="window.location.href='/loading';" 
               class="proceed-btn">
               Proceed
             </button>
@@ -324,32 +323,37 @@
         }
 
         async function processImage() {
-        try {
-            const image = localStorage.getItem("uploadedImage");
-            
-            // Send the image to the backend
-            const response = await fetch('http://127.0.0.1:5000/upload', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ image: image })
-            });
+            try {
+                const image = localStorage.getItem("uploadedImage");
+                if (!image) {
+                    alert("Please upload an image first");
+                    return;
+                }
+                
+                // Send the image to the backend
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ image: image })
+                });
 
-            const result = await response.json();
-            
-            if (result.success) {
-                alert("Processing Successful!");
-                console.log(result.result); // Display the matching result
-            } else {
-                alert("Error: " + result.error);
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Redirect to loading page after successful upload
+                    window.location.href = '/loading';
+                } else {
+                    alert("Error: " + result.error);
+                }
+            } catch (error) {
+                console.error("Error processing image:", error);
+                alert("Error uploading image. Please try again.");
             }
-        } catch (error) {
-            console.error("Error processing image:", error);
         }
-    }
 
-    document.querySelector('.proceed-btn').addEventListener('click', processImage);
+        document.querySelector('.proceed-btn').addEventListener('click', processImage);
 
 
 
