@@ -7,10 +7,8 @@ from datetime import datetime
 import re
 import json
 
-# Valid image extensions
 VALID_IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.bmp', '.tif', '.tiff'}
 
-# Paths
 ANNOTATED_SITEMAPS_DIR = r"H:\fyp\FYP_new_dt\FYP_new_dt\Sitemap\images"
 ANNOTATED_SEGMENTATIONS_DIR = r"H:\fyp\FYP_new_dt\FYP_new_dt\Sitemap\labels"
 USER_INPUT_DIR = r"H:\fyp\from_web_1"
@@ -18,7 +16,6 @@ MATCHED_DIR = r"H:\fyp\matched"
 SITEMAP_OUT_DIR = os.path.join(MATCHED_DIR, "sitemap")
 USER_IN_OUT_DIR = os.path.join(MATCHED_DIR, "user_in")
 
-# Ensure output directories exist
 os.makedirs(SITEMAP_OUT_DIR, exist_ok=True)
 os.makedirs(USER_IN_OUT_DIR, exist_ok=True)
 
@@ -28,7 +25,7 @@ def extract_features(mask):
     return flattened / np.linalg.norm(flattened)
 
 def find_matching_sitemap(segmented_features, annotated_images_dir, annotated_labels_dir):
-    max_similarity = 0
+    max_similarity = -1
     best_img_path = None
     best_mask_path = None
 
@@ -47,7 +44,6 @@ def find_matching_sitemap(segmented_features, annotated_images_dir, annotated_la
 
         if similarity > max_similarity:
             base_name = os.path.splitext(mask_file)[0]
-            # Try to find the corresponding image
             for img_ext in VALID_IMAGE_EXTENSIONS:
                 img_path = os.path.join(annotated_images_dir, base_name + img_ext)
                 if os.path.exists(img_path):
@@ -70,83 +66,56 @@ def process_user_input(input_image_path, input_mask_path):
         ANNOTATED_SEGMENTATIONS_DIR
     )
 
-    if matched_img and matched_mask:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-        matched_img_name = f"matched_{timestamp}_{os.path.basename(matched_img)}"
-        matched_mask_name = f"matched_{timestamp}_{os.path.basename(matched_mask)}"
+    matched_img_name = f"matched_{timestamp}_{os.path.basename(matched_img)}"
+    matched_mask_name = f"matched_{timestamp}_{os.path.basename(matched_mask)}"
+    shutil.copy2(matched_img, os.path.join(SITEMAP_OUT_DIR, matched_img_name))
+    shutil.copy2(matched_mask, os.path.join(SITEMAP_OUT_DIR, matched_mask_name))
 
-        shutil.copy2(matched_img, os.path.join(SITEMAP_OUT_DIR, matched_img_name))
-        shutil.copy2(matched_mask, os.path.join(SITEMAP_OUT_DIR, matched_mask_name))
+    user_img_name = f"user_{timestamp}_{os.path.basename(input_image_path)}"
+    user_mask_name = f"user_{timestamp}_{os.path.basename(input_mask_path)}"
+    shutil.copy2(input_image_path, os.path.join(USER_IN_OUT_DIR, user_img_name))
+    shutil.copy2(input_mask_path, os.path.join(USER_IN_OUT_DIR, user_mask_name))
 
-        user_img_name = f"user_{timestamp}_{os.path.basename(input_image_path)}"
-        user_mask_name = f"user_{timestamp}_{os.path.basename(input_mask_path)}"
-
-        shutil.copy2(input_image_path, os.path.join(USER_IN_OUT_DIR, user_img_name))
-        shutil.copy2(input_mask_path, os.path.join(USER_IN_OUT_DIR, user_mask_name))
-
-        print(f"Match saved to '{SITEMAP_OUT_DIR}', user input saved to '{USER_IN_OUT_DIR}'")
-        return matched_img_name, similarity
-
-    print("No matching sitemap found.")
-    return None, 0
+    print(f"Saved closest match: {matched_img_name} (Similarity: {similarity:.4f})")
+    return matched_img_name, similarity
 
 def extract_timestamp_key(filename):
-    # Extract timestamp like 20250506_220326 from filename
     match = re.search(r'user_input_(\d{8}_\d{6})', filename)
     return match.group(1) if match else None
 
+def json_to_mask(json_path, image_shape):
+    with open(json_path, 'r') as f:
+        json_data = json.load(f)
+
+    mask = np.zeros(image_shape[:2], dtype=np.uint8)
+    for segment in json_data.get('segments', []):
+        points = np.array(segment, dtype=np.int32)
+        cv2.fillPoly(mask, [points], 255)
+    return mask
+
 def main(user_image_path=None, user_json_path=None):
-    """
-    Find a matching sitemap for a user image and its segmentation.
-    
-    Args:
-        user_image_path: Path to the user's image
-        user_json_path: Path to the user's JSON segmentation
-        
-    Returns:
-        Matched sitemap filename or None if no match found
-    """
     if user_image_path and user_json_path:
-        # Create mask from JSON for matching
         try:
-            # Load the image to get dimensions
             image = cv2.imread(user_image_path)
             if image is None:
-                raise ValueError(f"Failed to load image at {user_image_path}")
-                
-            # Load the JSON
-            with open(user_json_path, 'r') as f:
-                json_data = json.load(f)
-                
-            # Create a mask from the JSON segments
-            mask = np.zeros(image.shape[:2], dtype=np.uint8)
-            for segment in json_data.get('segments', []):
-                points = np.array(segment, dtype=np.int32)
-                cv2.fillPoly(mask, [points], 255)
-                
-            # Save the mask temporarily
+                raise ValueError(f"Cannot read user image: {user_image_path}")
+
+            mask = json_to_mask(user_json_path, image.shape)
             temp_mask_path = os.path.join(os.path.dirname(user_image_path), "temp_mask.png")
             cv2.imwrite(temp_mask_path, mask)
-            
-            # Process the user input
+
             matched_file, sim = process_user_input(user_image_path, temp_mask_path)
-            
-            # Clean up the temporary file
+
             if os.path.exists(temp_mask_path):
                 os.remove(temp_mask_path)
-                
-            if matched_file:
-                print(f"Closest match: {matched_file} (Similarity: {sim:.4f})")
-                return os.path.basename(matched_file)
-            else:
-                print("No match found.")
-                return None
+
+            return os.path.basename(matched_file)
         except Exception as e:
-            print(f"Error during matching: {e}")
+            print(f"Error: {e}")
             return None
     else:
-        # Use existing logic to find the latest files in USER_INPUT_DIR
         input_files = os.listdir(USER_INPUT_DIR)
         input_groups = {}
 
@@ -171,26 +140,18 @@ def main(user_image_path=None, user_json_path=None):
             print("No valid input files found.")
             return None
 
-        # Use the latest timestamp group
         latest_timestamp = sorted(input_groups.keys())[-1]
         group = input_groups[latest_timestamp]
-
+ 
         if 'image' not in group or 'mask' not in group:
-            print(f"Incomplete pair for timestamp: {latest_timestamp}")
+            print(f"Incomplete input set for timestamp {latest_timestamp}")
             return None
 
         input_image_path = os.path.join(USER_INPUT_DIR, group['image'])
         input_mask_path = os.path.join(USER_INPUT_DIR, group['mask'])
 
         matched_file, sim = process_user_input(input_image_path, input_mask_path)
-        if matched_file:
-            print(f"Closest match: {matched_file} (Similarity: {sim:.4f})")
-        else:
-            print("No match found.")
-
         return matched_file
 
-# Run the program
-# if __name__ == "__main__":
-#     main()
- 
+# Example usage:
+# main(r"path_to_user_image.jpg", r"path_to_user_segmentation.json")
