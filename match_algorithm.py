@@ -26,136 +26,115 @@ def extract_features(mask):
     norm = np.linalg.norm(flat)
     return flat / norm if norm > 0 else flat
 
-def load_masks_from_directory(directory):
+def load_sitemap_masks(sitemap_base_name):
     masks = []
-    mask_names = []
-    for file in sorted(os.listdir(directory)):
-        ext = os.path.splitext(file)[1].lower()
-        if ext in VALID_IMAGE_EXTENSIONS:
-            path = os.path.join(directory, file)
-            mask = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+    for ext in VALID_IMAGE_EXTENSIONS:
+        mask_path = os.path.join(ANNOTATED_SEGMENTATIONS_DIR, f"{sitemap_base_name}{ext}")
+        if os.path.exists(mask_path):
+            mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
             if mask is not None:
                 masks.append(extract_features(mask))
-                mask_names.append(file)
-    return masks, mask_names
+    return masks
 
-def compute_similarity_matrix(user_masks, sitemap_dir, labels_dir):
-    similarity_scores = []
-    sitemap_masks, mask_names = load_masks_from_directory(labels_dir)
+def load_user_masks_from_json(json_path, image_shape):
+    with open(json_path, 'r') as f:
+        data = json.load(f)
+    
+    masks = []
+    for segment in data.get('segments', []):
+        mask = np.zeros(image_shape[:2], dtype=np.uint8)
+        points = np.array(segment, dtype=np.int32)
+        cv2.fillPoly(mask, [points], 255)
+        masks.append(extract_features(mask))
+    return masks
+
+def compute_similarity_matrix(user_masks, sitemap_masks):
+    similarity_matrix = []
     for sitemap_mask in sitemap_masks:
         row = []
         for user_mask in user_masks:
-            sim = cosine_similarity([user_mask], [sitemap_mask])[0][0]
-            row.append(sim)
-        similarity_scores.append(row)
-    return similarity_scores
+            # Convert similarity to distance (1 - similarity)
+            similarity = cosine_similarity([user_mask], [sitemap_mask])[0][0]
+            distance = 1 - similarity
+            row.append(distance)
+        similarity_matrix.append(row)
+    return similarity_matrix
 
-def average_similarity(sim_matrix):
-    return np.mean(sim_matrix, axis=1).tolist()
+def find_best_match(user_image_path, user_json_path):
+    # Load user image and masks
+    image = cv2.imread(user_image_path)
+    if image is None:
+        raise ValueError(f"Cannot read user image: {user_image_path}")
+    
+    user_masks = load_user_masks_from_json(user_json_path, image.shape)
+    if not user_masks:
+        raise ValueError("No valid masks found in user JSON")
 
-def process_all_sitemaps(user_masks):
-    all_sitemap_scores = []
-    sitemap_files = sorted(os.listdir(ANNOTATED_SEGMENTATIONS_DIR))
-
-    seen_bases = set()
+    # Get all sitemap base names
+    sitemap_files = os.listdir(ANNOTATED_SEGMENTATIONS_DIR)
+    sitemap_bases = set()
     for file in sitemap_files:
-        base_name, ext = os.path.splitext(file)
-        if ext.lower() not in VALID_IMAGE_EXTENSIONS or base_name in seen_bases:
-            continue
-        seen_bases.add(base_name)
+        base_name = os.path.splitext(file)[0]
+        sitemap_bases.add(base_name)
 
-        matching_masks = [f for f in sitemap_files if f.startswith(base_name)]
-        labels_dir = ANNOTATED_SEGMENTATIONS_DIR
-        img_dir = ANNOTATED_SITEMAPS_DIR
-
-        sitemap_mask_paths = [os.path.join(labels_dir, f) for f in matching_masks]
-        sitemap_masks = []
-        for path in sitemap_mask_paths:
-            mask = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-            if mask is not None:
-                sitemap_masks.append(extract_features(mask))
-
+    # Store results for each sitemap
+    sitemap_results = []
+    
+    for base_name in sitemap_bases:
+        sitemap_masks = load_sitemap_masks(base_name)
         if not sitemap_masks:
             continue
 
-        sim_matrix = []
-        for s_mask in sitemap_masks:
-            row = []
-            for u_mask in user_masks:
-                sim = cosine_similarity([u_mask], [s_mask])[0][0]
-                row.append(sim)
-            sim_matrix.append(row)
+        # Compute similarity matrix for this sitemap
+        similarity_matrix = compute_similarity_matrix(user_masks, sitemap_masks)
+        
+        # Calculate average distance for this sitemap
+        avg_distance = np.mean(similarity_matrix)
+        sitemap_results.append((base_name, avg_distance, similarity_matrix))
 
-        avg_sim = np.mean(sim_matrix)
-        all_sitemap_scores.append((base_name, avg_sim))
+    if not sitemap_results:
+        raise ValueError("No valid sitemaps found for comparison")
 
-    return all_sitemap_scores
-
-def save_match_and_user_data(best_base_name, user_image_path, user_mask_paths):
+    # Find sitemap with lowest average distance
+    best_match = min(sitemap_results, key=lambda x: x[1])
+    
+    # Save results
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
+    
+    # Save matched sitemap image and masks
     for ext in VALID_IMAGE_EXTENSIONS:
-        img_path = os.path.join(ANNOTATED_SITEMAPS_DIR, best_base_name + ext)
-        if os.path.exists(img_path):
-            shutil.copy2(img_path, os.path.join(SITEMAP_OUT_DIR, f"matched_{timestamp}_{os.path.basename(img_path)}"))
+        sitemap_img_path = os.path.join(ANNOTATED_SITEMAPS_DIR, f"{best_match[0]}{ext}")
+        if os.path.exists(sitemap_img_path):
+            shutil.copy2(sitemap_img_path, 
+                        os.path.join(SITEMAP_OUT_DIR, f"matched_{timestamp}_{os.path.basename(sitemap_img_path)}"))
             break
 
-    matching_masks = [f for f in os.listdir(ANNOTATED_SEGMENTATIONS_DIR) if f.startswith(best_base_name)]
-    for mask_file in matching_masks:
-        src = os.path.join(ANNOTATED_SEGMENTATIONS_DIR, mask_file)
-        dst = os.path.join(SITEMAP_OUT_DIR, f"matched_{timestamp}_{mask_file}")
-        shutil.copy2(src, dst)
+    # Save user input
+    shutil.copy2(user_image_path, 
+                os.path.join(USER_IN_OUT_DIR, f"user_{timestamp}_{os.path.basename(user_image_path)}"))
+    shutil.copy2(user_json_path, 
+                os.path.join(USER_IN_OUT_DIR, f"user_{timestamp}_{os.path.basename(user_json_path)}"))
 
-    shutil.copy2(user_image_path, os.path.join(USER_IN_OUT_DIR, f"user_{timestamp}_{os.path.basename(user_image_path)}"))
-    for mask_path in user_mask_paths:
-        shutil.copy2(mask_path, os.path.join(USER_IN_OUT_DIR, f"user_{timestamp}_{os.path.basename(mask_path)}"))
-
-def json_to_mask(json_path, image_shape):
-    with open(json_path, 'r') as f:
-        data = json.load(f)
-    mask = np.zeros(image_shape[:2], dtype=np.uint8)
-    for seg in data.get('segments', []):
-        pts = np.array(seg, dtype=np.int32)
-        cv2.fillPoly(mask, [pts], 255)
-    return mask
+    return {
+        'best_match': best_match[0],
+        'average_distance': best_match[1],
+        'similarity_matrix': best_match[2],
+        'timestamp': timestamp
+    }
 
 def main(user_image_path=None, user_json_path=None):
-    if user_image_path and user_json_path:
-        image = cv2.imread(user_image_path)
-        if image is None:
-            print(f"Cannot read image: {user_image_path}")
-            return None
+    if not user_image_path or not user_json_path:
+        print("Please provide both user image and JSON paths")
+        return None
 
-        with open(user_json_path) as f:
-            data = json.load(f)
-
-        user_masks = []
-        temp_paths = []
-
-        for i, segment in enumerate(data.get('segments', [])):
-            mask = np.zeros(image.shape[:2], dtype=np.uint8)
-            pts = np.array(segment, dtype=np.int32)
-            cv2.fillPoly(mask, [pts], 255)
-            path = os.path.join(os.path.dirname(user_image_path), f"temp_mask_{i}.png")
-            cv2.imwrite(path, mask)
-            user_masks.append(extract_features(mask))
-            temp_paths.append(path)
-
-        scores = process_all_sitemaps(user_masks)
-        if not scores:
-            print("No sitemaps to compare.")
-            return None
-
-        scores.sort(key=lambda x: -x[1])  # Highest cosine similarity = most similar
-        best_match = scores[0]
-        print(f"Best match: {best_match[0]}, Similarity: {best_match[1]:.4f}")
-
-        save_match_and_user_data(best_match[0], user_image_path, temp_paths)
-
-        for path in temp_paths:
-            os.remove(path)
-
-        return best_match[0]
+    try:
+        result = find_best_match(user_image_path, user_json_path)
+        print(f"Best match: {result['best_match']}")
+        print(f"Average distance: {result['average_distance']:.4f}")
+        return result['best_match']
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return None
 
 # Example usage:
 # main(r"path_to_user_image.jpg", r"path_to_user_segmentation.json")
