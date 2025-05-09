@@ -78,11 +78,8 @@ def upload_image():
                 sitemap_json_path = f"segmentation_results/segmentation_results_sitemap_{matched_basename}.json"
 
                 # 3. Encroachment detection
-                result_image_path, result_json_path, num_encroachments = process_from_matched_dirs(
-                    user_image_save_path, user_json_save_path,
-                    sitemap_image_path, sitemap_json_path,
-                    output_folder="resultant"
-                )
+                result_image_path, result_json_path, num_encroachments = process_from_matched_dirs()
+
 
                 # 4. Prepare result for display
                 image = cv2.imread(result_image_path)
@@ -154,19 +151,29 @@ def check_status():
 
 @app.route('/result')
 def result():
-    # Check for specific files in the resultant folder
-    result_image_path = "resultant/encroachment_result.png"
-    result_json_path = "resultant/encroachment_mask.json"
+    # Find the most recent files in the resultant folder
+    result_image_path = None
+    result_json_path = None
+    
+    if os.path.exists("resultant"):
+        for filename in os.listdir("resultant"):
+            if filename.startswith("encroachment_mask_") and filename.endswith(".json"):
+                result_json_path = os.path.join("resultant", filename)
+            elif filename.startswith("encroachment_result_") and filename.endswith(".png"):
+                result_image_path = os.path.join("resultant", filename)
     
     # Check if both files exist
-    if not (os.path.exists(result_image_path) and os.path.exists(result_json_path)):
+    if not (result_image_path and result_json_path and 
+            os.path.exists(result_image_path) and os.path.exists(result_json_path)):
+        print(f"Files not found: {result_image_path} or {result_json_path}")
         return render_template("loading.html"), 202
     
     try:
         # Load the image and json data directly from the files
         image = cv2.imread(result_image_path)
         if image is None:
-            raise ValueError(f"Failed to load image from {result_image_path}")
+            print(f"Failed to load image from {result_image_path}")
+            return render_template("loading.html"), 202
             
         with open(result_json_path, "r") as f:
             mask_json_text = f.read()
@@ -175,7 +182,11 @@ def result():
                 # Find the last valid JSON object
                 last_json_start = mask_json_text.rindex('{"segments":')
                 mask_json_text = mask_json_text[last_json_start:]
-            mask_json = json.loads(mask_json_text)
+            try:
+                mask_json = json.loads(mask_json_text)
+            except json.JSONDecodeError as e:
+                print(f"Failed to parse JSON: {e}")
+                return render_template("loading.html"), 202
         
         # Make sure mask_json is properly structured
         if not isinstance(mask_json, dict):
@@ -193,12 +204,25 @@ def result():
         # Draw all segments onto the mask
         for segment in mask_json.get("segments", []):
             try:
-                # Convert segment to the right format
+                # Ensure segment has at least 3 points to form a polygon
+                if len(segment) < 3:
+                    print(f"Skipping segment with insufficient points: {len(segment)}")
+                    continue
+                    
+                # Convert segment to the right format and ensure it's a 2D array
                 points = np.array(segment, dtype=np.int32)
+                if points.ndim != 2 or points.shape[1] != 2:
+                    print(f"Invalid point format: shape {points.shape}")
+                    continue
+                    
+                # Reshape points to the format expected by fillPoly
+                points = points.reshape((-1, 1, 2))
+                
                 # Fill the polygon on the mask
                 cv2.fillPoly(mask, [points], 255)
             except Exception as e:
                 print(f"Error drawing segment: {e}")
+                print(f"Segment data: {segment}")
                 continue
         
         # Create red overlay where mask is set
@@ -207,18 +231,22 @@ def result():
         
         # Apply the mask to create the highlighted image
         highlighted_image = image.copy()
-        # Use mask to select regions to overlay with red
-        highlighted_image[mask > 0] = cv2.addWeighted(
-            highlighted_image[mask > 0], 
-            0.3,  # Original image weight
-            red_overlay[mask > 0], 
-            0.7,  # Red overlay weight
-            0
-        )
         
-        # Add a thick red border around encroachment areas for emphasis
-        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        cv2.drawContours(highlighted_image, contours, -1, (0, 0, 255), 3)
+        # Check if there are any non-zero values in the mask
+        if np.any(mask > 0):
+            # Use mask to select regions to overlay with red
+            mask_indices = mask > 0
+            highlighted_image[mask_indices] = cv2.addWeighted(
+                highlighted_image[mask_indices], 
+                0.3,  # Original image weight
+                red_overlay[mask_indices], 
+                0.7,  # Red overlay weight
+                0
+            )
+            
+            # Add a thick red border around encroachment areas for emphasis
+            contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            cv2.drawContours(highlighted_image, contours, -1, (0, 0, 255), 3)
         
         # Encode the resulting image
         _, buffer = cv2.imencode('.png', highlighted_image)
@@ -254,24 +282,32 @@ def result():
 def check_resultant_folder():
     """
     Endpoint to check if required files exist in the resultant folder.
-    Checks for .json and image files (.png, .jpg, or .jpeg)
+    Checks for files matching patterns: encroachment_result_*.png and encroachment_mask_*.json
     """
     has_json_file = False
     has_image_file = False
+    result_image_path = None
+    result_json_path = None
     
     if os.path.exists("resultant"):
         for filename in os.listdir("resultant"):
-            if filename.endswith(".json"):
+            if filename.startswith("encroachment_mask_") and filename.endswith(".json"):
                 has_json_file = True
-            elif filename.endswith((".png", ".jpg", ".jpeg")):
+                result_json_path = os.path.join("resultant", filename)
+            elif filename.startswith("encroachment_result_") and filename.endswith(".png"):
                 has_image_file = True
-            
-            if has_json_file and has_image_file:
-                break
+                result_image_path = os.path.join("resultant", filename)
+    
+    # Add debug logging
+    print(f"Checking resultant folder:")
+    print(f"Image file exists: {has_image_file} ({result_image_path})")
+    print(f"JSON file exists: {has_json_file} ({result_json_path})")
     
     return jsonify({
         "hasJsonFile": has_json_file,
-        "hasImageFile": has_image_file
+        "hasImageFile": has_image_file,
+        "imagePath": result_image_path,
+        "jsonPath": result_json_path
     })
 
 if __name__ == '__main__':
