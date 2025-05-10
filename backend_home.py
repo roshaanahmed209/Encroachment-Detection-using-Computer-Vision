@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for, flash, session
 import base64
 import cv2
 import numpy as np
@@ -11,21 +11,71 @@ import datetime
 from ecroachment import process_from_matched_dirs
 from display_encr_output import draw_json_mask_overlay
 import json
+from werkzeug.security import check_password_hash, generate_password_hash
+import sqlite3
 
-  
 app = Flask(__name__)
+app.secret_key = 'your-secret-key-here'  # Change this to a secure secret key
 
 # Global variable to track processing status 
 processing_status = {"complete": False, "result": None}
 
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_db():
+    if not os.path.exists('database.db'):
+        from init_db import init_db
+        init_db()
+
 # Routes for static HTML pages
 @app.route('/')
-def landing():
-    return render_template('landing.html')  # Landing page as the default start page
+def index():
+    return render_template('login.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    email = ""
+    if request.method == 'POST':
+        try:
+            email = request.form.get('email')
+            password = request.form.get('password')
+
+            if not email or not password:
+                error = 'Please fill in all fields'
+                return render_template('login.html', error=error, email=email)
+
+            conn = get_db_connection()
+            user = conn.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+            conn.close()
+
+            if user and check_password_hash(user['password'], password):
+                session['user_id'] = user['id']
+                session['email'] = user['email']
+                return redirect(url_for('home'))
+            else:
+                error = 'Invalid email or password. Please try again.'
+                return render_template('login.html', error=error, email=email)
+        except Exception as e:
+            error = 'An error occurred. Please try again.'
+            print(f"Login error: {str(e)}")
+            return render_template('login.html', error=error, email=email)
+
+    return render_template('login.html')
 
 @app.route('/home')
 def home():
-    return render_template('Home.html')
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    return render_template('home.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 @app.route('/contactus')
 def contactus():
@@ -38,10 +88,6 @@ def history():
 @app.route('/loading')
 def loading():
     return render_template('loading.html')
-
-@app.route('/login')
-def login():
-    return render_template('login.html')
 
 @app.route('/random')
 def random_page():
@@ -311,4 +357,5 @@ def check_resultant_folder():
     })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    init_db()  # Initialize database if it doesn't exist
+    app.run(debug=True,port=5500)

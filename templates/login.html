@@ -7,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-900 text-gray-100">
 
@@ -49,61 +50,61 @@
     <div class="flex flex-wrap -m-4">
       <div class="lg:w-1/3 sm:w-1/2 p-4 slide-up-animation">
         <div class="flex relative">
-          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="https://dummyimage.com/600x360">
-          <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">THE SUBTITLE</h2>
-            <h1 class="title-font text-lg font-medium text-black mb-3">Shooting Stars</h1>
-            <p class="leading-relaxed text-black">Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing tousled waistcoat.</p>
+          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 1.png') }}">
+          <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">        
+            <h1 class="title-font text-lg font-medium text-black mb-3">Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 86.54%</h2>
+            <p class="leading-relaxed text-black">The number of detected encroachments is: 4</p>
           </div>
         </div>
       </div>
       <div class="lg:w-1/3 sm:w-1/2 p-4 slide-up-animation">
         <div class="flex relative">
-          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="https://dummyimage.com/601x361">
+          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 2.png') }}">
           <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">THE SUBTITLE</h2>
-            <h1 class="title-font text-lg font-medium text-black mb-3">The Catalyzer</h1>
-            <p class="leading-relaxed text-black">Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing tousled waistcoat.</p>
+            <h1 class="title-font text-lg font-medium text-black mb-3">Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 80.00%</h2>
+            <p class="leading-relaxed text-black">The number of detected encroachments is: 4</p>
           </div>
         </div>
       </div>
       <div class="lg:w-1/3 sm:w-1/2 p-4 slide-up-animation">
         <div class="flex relative">
-          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="https://dummyimage.com/603x363">
+          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 3.png') }}">
           <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">THE SUBTITLE</h2>
-            <h1 class="title-font text-lg font-medium text-black mb-3">The 400 Blows</h1>
-            <p class="leading-relaxed text-black">Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing tousled waistcoat.</p>
+            <h1 class="title-font text-lg font-medium text-black mb-3">Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 96.30%</h2>
+            <p class="leading-relaxed text-black">The number of detected encroachments is: 2</p>
           </div>
         </div>
       </div>
       <div class="lg:w-1/3 sm:w-1/2 p-4 slide-up-animation">
         <div class="flex relative">
-          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="https://dummyimage.com/602x362">
+          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 4.png') }}">
           <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">THE SUBTITLE</h2>
-            <h1 class="title-font text-lg font-medium text-black mb-3">Neptune</h1>
-            <p class="leading-relaxed text-black">Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing tousled waistcoat.</p>
+            <h1 class="title-font text-lg font-medium text-black mb-3">No Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 97.01%</h2>
+            <p class="leading-relaxed text-black">The number of detected encroachments is: 0</p>
           </div>
         </div>
       </div>
       <div class="lg:w-1/3 sm:w-1/2 p-4 slide-up-animation">
         <div class="flex relative">
-          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="https://dummyimage.com/605x365">
+          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 5.png') }}">
           <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">THE SUBTITLE</h2>
-            <h1 class="title-font text-lg font-medium text-black mb-3">Holden Caulfield</h1>
-            <p class="leading-relaxed text-black">Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing tousled waistcoat.</p>
+            <h1 class="title-font text-lg font-medium text-black mb-3">Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 88.00%</h2>
+            <p class="leading-relaxed text-black">The number of detected encroachments is: 2</p>
           </div>
         </div>
       </div>
       <div class="lg:w-1/3 sm:w-1/3 p-4 slide-up-animation">
         <div class="flex relative">
-          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="https://dummyimage.com/606x366">
+          <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 6.png') }}">
           <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">THE SUBTITLE</h2>
-            <h1 class="title-font text-lg font-medium text-black mb-3">Alper Kamu</h1>
-            <p class="leading-relaxed text-black">Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing tousled waistcoat.</p>
+            <h1 class="title-font text-lg font-medium text-black mb-3">No Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 81.67%</h2>
+            <p class="leading-relaxed text-black">The number of detected encroachments is: 0</p>
           </div>
         </div>
       </div>
@@ -122,33 +123,24 @@
       <!-- Right Side: Sign Up Form -->
       <div class="lg:w-2/5 md:w-1/2 bg-gray-800 bg-opacity-50 rounded-lg p-8 flex flex-col items-center justify-center">
         <h2 class="text-white text-lg font-medium title-font mb-5">Log in</h2>
-        <!-- Stylish Input Field for Username -->
-        <div class="container mb-10">
-          <input required type="text" name="username" class="input">
-          <label class="label">Username</label>
-        </div>
-        <!-- Stylish Input Field for Full Name -->
-        <div class="container mb-10">
-          <input required type="text" id="full-name" name="full-name" class="input">
-          <label class="label">Full Name</label>
-        </div>
-        <!-- Stylish Input Field for Email -->
-        <div class="container mb-10">
-          <input required type="email" id="email" name="email" class="input">
-          <label class="label">Email</label>
-        </div>
-        <!-- Stylish Input Field for Password -->
-        <div class="container mb-10">
-          <input required type="password" id="password" name="password" class="input">
-          <label class="label">Password</label>
-        </div>
-        <button onclick="window.location.href='/home';" class="proceed-btn">
-          Log in
-      </button>           
-      <p class="text-xs mt-3">Log in with pre-provided unique credentials.</p>
+        <form action="{{ url_for('login') }}" method="POST" class="w-full" id="loginForm">
+          <!-- Stylish Input Field for Email -->
+          <div class="container mb-10">
+            <input required type="email" id="email" name="email" class="input" autocomplete="off" value="{{ email | default('') }}">
+            <label class="label">Email</label>
+          </div>
+          <!-- Stylish Input Field for Password -->
+          <div class="container mb-10">
+            <input required type="password" id="password" name="password" class="input" autocomplete="new-password">
+            <label class="label">Password</label>
+          </div>
+          <button type="submit" class="proceed-btn">
+            Log in
+          </button>           
+          <p class="text-xs mt-3">Log in with your registered credentials.</p>
+        </form>
       </div>
-    </div>
-  </section>
+      
 
 
   <section id="blank-space" class="text-black  body-font py-12">
@@ -197,6 +189,8 @@
         </a>
       </span>
     </div>
+    <div id="error-container" data-error="{{ error | default('') }}"></div>
+
   </footer>
  
 
@@ -215,6 +209,58 @@
 
   .slide-up-animation {
     animation: slideUp 1s ease-out;
+  }
+
+  /* Fixed size container styles */
+  .flex.relative {
+    height: 250px; /* Fixed height for image containers */
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .flex.relative img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .px-8.py-10.relative {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .px-8.py-10.relative h1 {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .px-8.py-10.relative h2 {
+    font-size: 0.875rem;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .px-8.py-10.relative p {
+    font-size: 0.875rem;
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
  button {
@@ -393,7 +439,23 @@ button:active {
 
 </style>
 
-  
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const errorContainer = document.getElementById('error-container');
+      const error = errorContainer.getAttribute('data-error');
+
+      if (error) {
+          Swal.fire({
+              title: 'Login Failed',
+              text: error,
+              icon: 'error',
+              confirmButtonText: 'Try Again',
+              confirmButtonColor: '#3085d6'
+          });
+      }
+  });
+</script>
+
 
 </body>
 </html>
