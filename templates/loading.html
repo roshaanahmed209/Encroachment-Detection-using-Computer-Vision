@@ -8,12 +8,59 @@
         /* Ensuring the body takes up the full height of the viewport */
         html, body {
             height: 100%;
+            width: 100%;
             margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: black; /* Black background */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Background with blur effect */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('static/bg2.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: blur(8px);
+            -webkit-filter: blur(8px);
+            z-index: -2;
+        }
+        
+        /* Full-page overlay for consistent shading */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        /* Container for loading animation */
+        .content-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: none; /* Ensure no blur on the content */
         }
 
         .container {
@@ -25,6 +72,7 @@
             justify-content: center;
             height: var(--uib-size);
             width: var(--uib-size);
+            position: relative;
         }
 
         .slice {
@@ -242,45 +290,102 @@
     </style>
 </head>
 <body>
+  <!-- Background with blur effect -->
+  <div class="background"></div>
+  
+  <!-- Overlay for shading -->
+  <div class="overlay"></div>
+  
+  <!-- Content container to keep loading animation clear -->
+  <div class="content-container">
+    <div class="container">
+      <div class="slice"></div>
+      <div class="slice"></div>
+      <div class="slice"></div>
+      <div class="slice"></div>
+      <div class="slice"></div>
+      <div class="slice"></div>
+    </div>
 
-<div class="container">
-  <div class="slice"></div>
-  <div class="slice"></div>
-  <div class="slice"></div>
-  <div class="slice"></div>
-  <div class="slice"></div>
-  <div class="slice"></div>
-</div>
-
-<p class="loading-text">Processing Image. . .</p>
+    <p id="loading-text" class="loading-text">Processing Image. . .</p>
+  </div>
 
 <script>
-function checkStatus() {
-    fetch('/check_resultant_folder')
+  document.addEventListener('DOMContentLoaded', function() {
+    const countdownElement = document.getElementById('loading-text');
+    let retryCount = 0;
+    const maxRetries = 5;
+    
+    // Function to check loading status
+    function checkLoadingStatus() {
+      fetch('/check_loading_status')
         .then(response => response.json())
         .then(data => {
-            if (data.hasJsonFile && data.hasImageFile) {
-                window.location.href = '/result';
-            } else {
-                setTimeout(checkStatus, 2000);
-            }
+          console.log('Loading status:', data);
+          
+          // If redirect is set, go to result page
+          if (data.redirect) {
+            console.log('Redirecting to:', data.redirect);
+            window.location.href = data.redirect;
+            return;
+          }
+          
+          // Don't update the countdown text - just keep static "Processing Image..."
+          
+          // If there's an error, display it
+          if (data.error) {
+            console.error('Loading error:', data.error);
+            countdownElement.textContent = `Error: ${data.error}`;
+            setTimeout(checkLoadingStatus, 2000); // Retry in 2 seconds
+            return;
+          }
+          
+          // Continue checking status for normal processing
+          checkProcessingStatus();
         })
-        .catch(() => setTimeout(checkStatus, 2000));
-}
-
-let loadingMessages = ['Processing Image. . .', 'Analyzing Image. . .', 'Generating Masks. . .','Matching masks. . .','Generating Report. . .'];
-let currentMessageIndex = 0;
-
-function updateLoadingText() {
-    document.querySelector('.loading-text').textContent = loadingMessages[currentMessageIndex];
-    currentMessageIndex = (currentMessageIndex + 1) % loadingMessages.length;
-    setTimeout(updateLoadingText, 6000);
-}
-
-window.onload = function() {
-    checkStatus();
-    updateLoadingText();
-};
+        .catch(error => {
+          console.error('Error checking loading status:', error);
+          retryCount++;
+          
+          if (retryCount > maxRetries) {
+            countdownElement.textContent = 'Error connecting to server. Please refresh the page.';
+          } else {
+            // Fall back to normal processing status check
+            checkProcessingStatus();
+          }
+        });
+    }
+    
+    // Processing status check function
+    function checkProcessingStatus() {
+      fetch('/check_status')
+        .then(response => response.json())
+        .then(data => {
+          console.log('Processing status:', data);
+          
+          if (data.complete) {
+            console.log('Processing complete, redirecting to result');
+            window.location.href = '/result';
+          } else {
+            // If not complete, check loading status first after a delay
+            setTimeout(checkLoadingStatus, 1000);
+          }
+        })
+        .catch(error => {
+          console.error('Error checking processing status:', error);
+          retryCount++;
+          
+          if (retryCount > maxRetries) {
+            countdownElement.textContent = 'Error connecting to server. Please refresh the page.';
+          } else {
+            setTimeout(checkLoadingStatus, 1000);
+          }
+        });
+    }
+    
+    // Start the process
+    checkLoadingStatus();
+  });
 </script>
 
 </body>

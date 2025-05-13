@@ -10,74 +10,96 @@
   </head>
   <body>
     <!-- Header -->
-    <header id="header-container" class="text-gray-400 bg-black body-font fixed top-0 w-full z-50 shadow-md">
+    <header id="header-container" class="text-gray-400 bg-black/80 body-font fixed top-0 w-full z-50 shadow-md fade-in backdrop-blur-[15px]">
       <div class="container mx-auto flex flex-wrap p-2 items-center justify-between">
-        <a class="flex title-font font-medium items-center text-white">
-          <span class="ml-3 text-xl">EncroGuard</span>
+        <a href="/home" class="flex title-font font-medium items-center text-white">
+          <span class="ml-3 text-xl hover:text-indigo-400 transition-colors duration-300">EncroGuard</span>
         </a>
         <nav class="flex flex-wrap items-center text-base justify-center">
-          <a href="/home" class="mx-4 hover:text-white">Home</a>
-          <a href="#upload-section" class="mx-4 hover:text-white">Upload Image</a>
-          <a href="/history" class="mx-4 hover:text-white">History</a>
-          <a href="/contactus" class="mx-4 hover:text-white">Contact Us</a>
+          <a href="/home" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Home</a>
+          <a href="/home#upload-section" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Upload Image</a>
+          <a href="/history" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">History</a>
+          <a href="/contactus" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Contact Us</a>
+          <a href="/logout" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Logout</a>
         </nav>
       </div>
     </header>
 
-    <!-- Contact Us Section -->
-    <section class="text-gray-400 body-font relative">
-      <div class="container px-5 py-24 mx-auto">
-        <div class="flex flex-col text-center w-full mb-12">
-          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">Contact Us</h1>
-          <p class="lg:w-2/3 mx-auto leading-relaxed text-base">You can share your queries with us</p>
-        </div>
-        <div class="lg:w-1/2 md:w-2/3 mx-auto">
+    <section id="blank-space" class="text-black body-font py-12">
+      <div class="container mx-auto">
+        <!-- Empty section with padding for blank space -->
+      </div>
+    </section>
+
+    <section class="py-12">
+      <div class="container mx-auto text-center button">
+        <h2 class="text-6xl font-bold mb-4 text-gray-100 typewriter float-up" id="typewriter-text">
+          Get in Touch
+        </h2>
+        <p class="text-gray-400 mb-6 float-up delay-200">
+          Have questions or feedback? We're here to help!
+        </p>
+      </div>
+    </section>
+    
+    <section class="text-gray-400 body-font relative fade-in delay-300">
+      <div class="container px-5 py-12 mx-auto">
+        <div class="lg:w-1/2 md:w-2/3 mx-auto bg-gray-900 bg-opacity-50 p-8 rounded-lg">
           <div class="flex flex-wrap -m-2">
             <div class="p-2 w-1/2">
-              <div class="relative">
-                <label for="name" class="leading-7 text-sm text-gray-400">Name</label>
-                <input type="text" id="name" name="name" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+              <div id="signup-container">
+                <div class="container">
+                  <input type="text" name="name" id="name" class="input scale-in delay-100 peer hover:shadow-indigo-500/40 transition-all duration-300" placeholder=" " required />
+                  <label for="name" class="label">NAME</label>
+                </div>
               </div>
             </div>
             <div class="p-2 w-1/2">
-              <div class="relative">
-                <label for="email" class="leading-7 text-sm text-gray-400">Email</label>
-                <input type="email" id="email" name="email" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+              <div id="signup-container">
+                <div class="container">
+                  <input type="email" name="email" id="email" class="input scale-in delay-200 hover:shadow-indigo-500/40 transition-all duration-300" placeholder=" " required />
+                  <label for="email" class="label">EMAIL</label>
+                </div>
               </div>
             </div>
             <div class="p-2 w-full">
-              <div class="relative">
-                <label for="message" class="leading-7 text-sm text-gray-400">Message</label>
-                <textarea id="message" name="message" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 h-32 text-base outline-none text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+              <div id="signup-container">
+                <div class="container">
+                  <textarea id="message" name="message" class="input scale-in delay-300 hover:shadow-indigo-500/40 transition-all duration-300" placeholder=" " required style="height: 120px; padding-top: 15px;"></textarea>
+                  <label for="message" class="label">MESSAGE</label>
+                </div>
               </div>
             </div>
             <div class="p-2 w-full">
-              <button id="submit-button" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Submit</button>
-            </div>
-            <div class="p-2 w-full pt-8 mt-8 border-t border-gray-800 text-center">
-              <a class="text-indigo-400">EncroGuard@gmail.com</a>
-              <p class="leading-normal my-5">
-                <br>
-              </p>
+              <button id="submit-button" class="flex justify-center items-center mx-auto mt-8 text-white bg-indigo-500 border-0 py-3 px-8 hover:bg-indigo-600 rounded text-lg float-up delay-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <span class="whitespace-nowrap">Send Message</span>
+              </button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="text-gray-400 bg-black body-font">
+    <footer class="text-gray-400 bg-black body-font fade-in">
       <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
         <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
-          <span class="ml-3 text-xl">EncroGuard</span>
+          <span class="ml-3 text-xl hover:text-indigo-400 transition-colors duration-300">EncroGuard</span>
         </a>
-        <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">AI-based Detection System —
-          <a class="text-gray-500 ml-1" target="_blank" rel="noopener noreferrer">
-            Follow the Law, Not the Flaw
+        <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">Ai based Detection System —
+          <a class="text-gray-500 ml-1 hover:text-indigo-400 transition-colors duration-300" target="_blank" rel="noopener noreferrer">
+            Follow the Law<br>
+            Not the Flaw
           </a>
         </p>
       </div>
     </footer>
+
+    <!-- Add animated background dots -->
+    <div class="background-dots">
+      <div class="dot dot1"></div>
+      <div class="dot dot2"></div>
+      <div class="dot dot3"></div>
+    </div>
 
     <script>
       document.getElementById('submit-button').addEventListener('click', function (event) {
@@ -87,6 +109,175 @@
       });
     </script>
 <style>
+    /* Additional CSS to fix alignment issues */
+    #signup-container {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    
+    /* Header Styles with Blur Effect */
+    #header-container {
+      background-color: rgba(0, 0, 0, 0.6) !important;
+      position: fixed !important;
+      width: 100% !important;
+      z-index: 50 !important;
+      padding: 10px 0 !important;
+      box-shadow: 0 0 15px 5px rgba(75, 85, 99, 0.4) !important;
+      backdrop-filter: blur(15px) !important;
+      -webkit-backdrop-filter: blur(15px) !important;
+      transition: all 0.3s ease !important;
+    }
+
+    #header-container:hover {
+      box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.5) !important;
+      background-color: rgba(0, 0, 0, 0.7) !important;
+    }
+    
+    #signup-container .container {
+      position: relative;
+    }
+    
+    textarea.input {
+      resize: none;
+      min-height: 120px !important;
+      height: 120px !important;
+      padding-top: 15px !important;
+      width: 100%;
+    }
+    
+    .input::placeholder {
+      opacity: 0;
+    }
+    
+    /* Fix for label positioning */
+    #signup-container .label {
+      top: 13px;
+      left: 10px;
+      color: #a0aec0;
+    }
+
+    /* Background Animated Dots */
+    .background-dots {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .dot {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(139, 92, 246, 0.5); /* Purple color with transparency */
+      filter: blur(4px);
+      box-shadow: 0 0 10px 2px rgba(139, 92, 246, 0.3);
+      opacity: 0.6;
+      z-index: -1;
+    }
+
+    .dot1 {
+      width: 15px;
+      height: 15px;
+      top: 15%;
+      left: 10%;
+      animation: floatingDot1 30s linear infinite;
+    }
+
+    .dot2 {
+      width: 20px;
+      height: 20px;
+      top: 65%;
+      left: 75%;
+      animation: floatingDot2 40s linear infinite;
+    }
+
+    .dot3 {
+      width: 12px;
+      height: 12px;
+      top: 35%;
+      left: 80%;
+      animation: floatingDot3 35s linear infinite;
+    }
+
+    @keyframes floatingDot1 {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(100px, 50px); }
+      50% { transform: translate(50px, 100px); }
+      75% { transform: translate(-50px, 50px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @keyframes floatingDot2 {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-80px, 40px); }
+      40% { transform: translate(-40px, -60px); }
+      60% { transform: translate(60px, -40px); }
+      80% { transform: translate(40px, 80px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @keyframes floatingDot3 {
+      0% { transform: translate(0, 0); }
+      33% { transform: translate(-70px, -30px); }
+      66% { transform: translate(70px, 50px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* Additional animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(10px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      0% { transform: scale(0.95); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .float-up {
+      animation: floatUp 0.8s ease-out;
+    }
+
+    .scale-in {
+      animation: scaleIn 0.6s ease-out;
+    }
+
+    /* Apply staggered animation delays */
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+
+    /* Nav link hover effects */
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 50%;
+      background-color: #6366f1;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
     /* Slide-Up Animation */
     @keyframes slideUp {
        0% {
@@ -106,7 +297,7 @@
     button {
      height: 50px;
      margin: 5px;
-     width: 150px;
+     width: auto;
      background: #333;
      -webkit-box-pack: center;
      -ms-flex-pack: center;
@@ -135,6 +326,7 @@
      color: #d6d6d6;
      -webkit-transition: 500ms;
      transition: 500ms;
+     transform: translateY(-2px);
    }
    
    button:active {
@@ -175,6 +367,7 @@
            color: #d6d6d6;
            -webkit-transition: 500ms;
            transition: 500ms;
+           transform: translateY(-2px);
        }
    
        .proceed-btn:active {
@@ -188,17 +381,12 @@
    
      /* Header Styles */
       #header-container {
-       background: black;
-       position: fixed;
-       width: 100%;
-       z-index: 50;
-       padding: 10px 0;
-       box-shadow: 0 0 15px 5px rgba(75, 85, 99, 0.7); /* Glow effect */
+       /* Styles moved to main header section */
      }
-   
+
      body {
            /* Set the background image */
-           background-image: url('static/bg1.jpg'); 
+           background-image: url('static/bg2.jpg'); 
            /* Make the background cover the entire screen */
            background-size: cover; 
            /* Center the image */
@@ -208,12 +396,11 @@
            height: 100vh; /* Full viewport height */
            margin: 0; /* Remove default margin */
          }
-   
-   
+
+
      /* Glow Animation on Hover (Optional) */
      #header-container:hover {
-       box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.8); /* Stronger glow on hover */
-       transition: box-shadow 0.3s ease-in-out;
+       /* Styles moved to main header section */
      }
      /* Form Input Styles */
      #signup-container .container {
@@ -222,6 +409,7 @@
        gap: 7px;
        position: relative;
        color: white;
+       width: 100%;
      }
    
      #signup-container .label {
@@ -229,8 +417,10 @@
        padding-left: 10px;
        position: absolute;
        top: 13px;
-       transition: 0.3s;
+       left: 0;
+       transition: all 0.3s ease;
        pointer-events: none;
+       z-index: 1;
      }
    
      #signup-container .input {
@@ -238,13 +428,14 @@
        height: 45px;
        border: none;
        outline: none;
-       padding: 0px 10px;
+       padding: 10px;
        border-radius: 6px;
        color: #fff;
        font-size: 15px;
-       background-color: transparent;
-       box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
-                   -1px -1px 6px rgba(255, 255, 255, 0.4);
+       background-color: rgba(0, 0, 0, 0.2);
+       box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7),
+                   -1px -1px 6px rgba(255, 255, 255, 0.1);
+       transition: all 0.3s ease;
      }
    
      #signup-container .input:focus,
@@ -257,9 +448,12 @@
    
      #signup-container .input:focus ~ .label,
      #signup-container .input:valid ~ .label {
-       transition: 0.3s;
+       transition: all 0.3s ease;
        padding-left: 2px;
        transform: translateY(-35px);
+       font-size: 14px;
+       color: #6366f1;
+       font-weight: 500;
      }
    
     /* Typewriter effect without cursor */
@@ -276,6 +470,19 @@
                max-width: 100%; /* Adjust as needed */
              }
    
+    /* Submit button styling */
+    #submit-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      width: 220px;
+      height: 55px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 6px rgba(99, 102, 241, 0.25);
+      white-space: nowrap; /* Prevent text from wrapping */
+    }
    
    </style>
    

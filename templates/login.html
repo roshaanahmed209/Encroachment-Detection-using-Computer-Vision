@@ -11,20 +11,14 @@
 </head>
 <body class="bg-gray-900 text-gray-100">
 
-
-
- <header id="header-container" class="text-gray-400 bg-black body-font fixed top-0 w-full z-50 shadow-md">
+ <header id="header-container" class="text-gray-400 bg-black/80 body-font fixed top-0 w-full z-50 shadow-md fade-in backdrop-blur-[15px]">
   <div class="container mx-auto flex flex-wrap p-2 items-center justify-between">
-    <a class="flex title-font font-medium items-center text-white">
-      
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-      </svg>
-      <span class="ml-3 text-xl">EncroGuard</span>
+    <a href="/" class="flex title-font font-medium items-center text-white">
+      <span class="ml-3 text-xl hover:text-indigo-400 transition-colors duration-300">EncroGuard</span>
     </a>
     <nav class="flex flex-wrap items-center text-base justify-center">
-      <a href="#signup-container" class="mx-4 hover:text-white">Home</a>
-    
-      <a href="/home" class="mx-4 hover:text-white">Contact Us</a>
+      <a href="/" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Home</a>
+      <a href="/contactus" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Contact Us</a>
     </nav>
   </div>
 </header>
@@ -39,9 +33,9 @@
 
 <section class="text-gray-400  body-font p-10">
   <div class="container px-5 py-10 mx-auto">
-    <div class="flex flex-col text-center w-full mb-20 slide-up-animation">
-      <h2 class="text-6xl font-bold mb-4 text-gray-100 " >
-        Monitor and Detect Encroachments
+    <div class="flex flex-col text-center w-full mb-20">
+      <h2 class="text-6xl font-bold mb-4 text-gray-100 typewriter-text" id="typewriter-text">
+        <span class="typewriter-char">M</span><span class="typewriter-char">o</span><span class="typewriter-char">n</span><span class="typewriter-char">i</span><span class="typewriter-char">t</span><span class="typewriter-char">o</span><span class="typewriter-char">r</span><span class="typewriter-char"> </span><span class="typewriter-char">a</span><span class="typewriter-char">n</span><span class="typewriter-char">d</span><span class="typewriter-char"> </span><span class="typewriter-char">D</span><span class="typewriter-char">e</span><span class="typewriter-char">t</span><span class="typewriter-char">e</span><span class="typewriter-char">c</span><span class="typewriter-char">t</span><span class="typewriter-char"> </span><span class="typewriter-char">E</span><span class="typewriter-char">n</span><span class="typewriter-char">c</span><span class="typewriter-char">r</span><span class="typewriter-char">o</span><span class="typewriter-char">a</span><span class="typewriter-char">c</span><span class="typewriter-char">h</span><span class="typewriter-char">m</span><span class="typewriter-char">e</span><span class="typewriter-char">n</span><span class="typewriter-char">t</span><span class="typewriter-char">s</span>
       </h2>
       <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
         Keep a vigilant eye on your property boundaries with our advanced monitoring system. Detect and address encroachments swiftly to ensure efficiency and security at a low cost.
@@ -49,62 +43,62 @@
     </div>
     <div class="flex flex-wrap -m-4">
       <div class="lg:w-1/3 sm:w-1/2 p-4 slide-up-animation">
-        <div class="flex relative">
+        <div class="flex relative gallery-item">
           <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 1.png') }}">
-          <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">        
-            <h1 class="title-font text-lg font-medium text-black mb-3">Encroachment Detected</h1>
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 86.54%</h2>
-            <p class="leading-relaxed text-black">The number of detected encroachments is: 4</p>
+          <div class="px-8 py-10 relative z-10 w-full h-full flex flex-col justify-center gallery-overlay">        
+            <h1 class="title-font text-lg font-medium text-white mb-3 gallery-title">Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1 gallery-accuracy">Accuracy 86.54%</h2>
+            <p class="leading-relaxed text-white gallery-text">The number of detected encroachments is: 4</p>
           </div>
         </div>
       </div>
       <div class="lg:w-1/3 sm:w-1/2 p-4 slide-up-animation">
-        <div class="flex relative">
+        <div class="flex relative gallery-item">
           <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 2.png') }}">
-          <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">
-            <h1 class="title-font text-lg font-medium text-black mb-3">Encroachment Detected</h1>
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 80.00%</h2>
-            <p class="leading-relaxed text-black">The number of detected encroachments is: 4</p>
+          <div class="px-8 py-10 relative z-10 w-full h-full flex flex-col justify-center gallery-overlay">
+            <h1 class="title-font text-lg font-medium text-white mb-3 gallery-title">Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1 gallery-accuracy">Accuracy 80.00%</h2>
+            <p class="leading-relaxed text-white gallery-text">The number of detected encroachments is: 4</p>
           </div>
         </div>
       </div>
       <div class="lg:w-1/3 sm:w-1/2 p-4 slide-up-animation">
-        <div class="flex relative">
+        <div class="flex relative gallery-item">
           <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 3.png') }}">
-          <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">
-            <h1 class="title-font text-lg font-medium text-black mb-3">Encroachment Detected</h1>
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 96.30%</h2>
-            <p class="leading-relaxed text-black">The number of detected encroachments is: 2</p>
+          <div class="px-8 py-10 relative z-10 w-full h-full flex flex-col justify-center gallery-overlay">
+            <h1 class="title-font text-lg font-medium text-white mb-3 gallery-title">Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1 gallery-accuracy">Accuracy 96.30%</h2>
+            <p class="leading-relaxed text-white gallery-text">The number of detected encroachments is: 2</p>
           </div>
         </div>
       </div>
       <div class="lg:w-1/3 sm:w-1/2 p-4 slide-up-animation">
-        <div class="flex relative">
+        <div class="flex relative gallery-item">
           <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 4.png') }}">
-          <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">
-            <h1 class="title-font text-lg font-medium text-black mb-3">No Encroachment Detected</h1>
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 97.01%</h2>
-            <p class="leading-relaxed text-black">The number of detected encroachments is: 0</p>
+          <div class="px-8 py-10 relative z-10 w-full h-full flex flex-col justify-center gallery-overlay">
+            <h1 class="title-font text-lg font-medium text-white mb-3 gallery-title">No Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1 gallery-accuracy">Accuracy 97.01%</h2>
+            <p class="leading-relaxed text-white gallery-text">The number of detected encroachments is: 0</p>
           </div>
         </div>
       </div>
       <div class="lg:w-1/3 sm:w-1/2 p-4 slide-up-animation">
-        <div class="flex relative">
+        <div class="flex relative gallery-item">
           <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 5.png') }}">
-          <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">
-            <h1 class="title-font text-lg font-medium text-black mb-3">Encroachment Detected</h1>
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 88.00%</h2>
-            <p class="leading-relaxed text-black">The number of detected encroachments is: 2</p>
+          <div class="px-8 py-10 relative z-10 w-full h-full flex flex-col justify-center gallery-overlay">
+            <h1 class="title-font text-lg font-medium text-white mb-3 gallery-title">Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1 gallery-accuracy">Accuracy 88.00%</h2>
+            <p class="leading-relaxed text-white gallery-text">The number of detected encroachments is: 2</p>
           </div>
         </div>
       </div>
       <div class="lg:w-1/3 sm:w-1/3 p-4 slide-up-animation">
-        <div class="flex relative">
+        <div class="flex relative gallery-item">
           <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{ url_for('static', filename='showcase/image 6.png') }}">
-          <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-white opacity-0 hover:opacity-100">
-            <h1 class="title-font text-lg font-medium text-black mb-3">No Encroachment Detected</h1>
-            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">Accuracy 81.67%</h2>
-            <p class="leading-relaxed text-black">The number of detected encroachments is: 0</p>
+          <div class="px-8 py-10 relative z-10 w-full h-full flex flex-col justify-center gallery-overlay">
+            <h1 class="title-font text-lg font-medium text-white mb-3 gallery-title">No Encroachment Detected</h1>
+            <h2 class="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1 gallery-accuracy">Accuracy 81.67%</h2>
+            <p class="leading-relaxed text-white gallery-text">The number of detected encroachments is: 0</p>
           </div>
         </div>
       </div>
@@ -112,36 +106,35 @@
   </div>
 </section>
 
-  <section id="signup-container" class="text-black body-font pt-16 slide-up-animation">
-    <div class="container px-7 py-0 mx-auto flex flex-wrap items-center justify-center">
-      <div class=" text-white p-10 rounded-lg">
-        <p class="text-lg mb-5">Access is exclusive—log in with your unique credentials to secure your property</p>
-        <p class="text-base">Stay ahead of encroachments with cutting-edge detection tools and proactive monitoring.</p>
-        <p class="text-base">Experience seamless protection tailored to safeguard your land and boundaries.</p>
-      </div>
+<div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-gray-900 py-8 px-4 shadow sm:rounded-lg sm:px-10 login-card">
+      <h2 class="text-center text-3xl font-extrabold text-white mb-6">Login</h2>
       
-      <!-- Right Side: Sign Up Form -->
-      <div class="lg:w-2/5 md:w-1/2 bg-gray-800 bg-opacity-50 rounded-lg p-8 flex flex-col items-center justify-center">
-        <h2 class="text-white text-lg font-medium title-font mb-5">Log in</h2>
-        <form action="{{ url_for('login') }}" method="POST" class="w-full" id="loginForm">
-          <!-- Stylish Input Field for Email -->
-          <div class="container mb-10">
-            <input required type="email" id="email" name="email" class="input" autocomplete="off" value="{{ email | default('') }}">
-            <label class="label">Email</label>
+      <form method="post" action="/login" class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-400">Email</label>
+          <div class="mt-1">
+            <input id="email" name="email" type="email" required class="form-input appearance-none block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-800 text-white">
           </div>
-          <!-- Stylish Input Field for Password -->
-          <div class="container mb-10">
-            <input required type="password" id="password" name="password" class="input" autocomplete="new-password">
-            <label class="label">Password</label>
-          </div>
-          <button type="submit" class="proceed-btn">
-            Log in
-          </button>           
-          <p class="text-xs mt-3">Log in with your registered credentials.</p>
-        </form>
-      </div>
-      
+        </div>
 
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-400">Password</label>
+          <div class="mt-1">
+            <input id="password" name="password" type="password" required class="form-input appearance-none block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-800 text-white">
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" class="w-1/3 mx-auto flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 hover:-translate-y-1">
+            Sign in
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
   <section id="blank-space" class="text-black  body-font py-12">
     <div class="container mx-auto">
@@ -190,9 +183,14 @@
       </span>
     </div>
     <div id="error-container" data-error="{{ error | default('') }}"></div>
-
   </footer>
  
+  <!-- Add animated background dots -->
+  <div class="background-dots">
+    <div class="dot dot1"></div>
+    <div class="dot dot2"></div>
+    <div class="dot dot3"></div>
+  </div>
 
 <style>
  /* Slide-Up Animation */
@@ -209,6 +207,59 @@
 
   .slide-up-animation {
     animation: slideUp 1s ease-out;
+  }
+
+  /* Gallery hover effects */
+  .gallery-item {
+    height: 250px;
+    width: 100%;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  .gallery-item:hover {
+    transform: scale(1.02);
+  }
+
+  .gallery-overlay {
+    background-color: rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+
+  .gallery-item:hover .gallery-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 1;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+
+  .gallery-title, .gallery-accuracy, .gallery-text {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.5s ease;
+  }
+
+  .gallery-item:hover .gallery-title {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+  }
+
+  .gallery-item:hover .gallery-accuracy {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+  }
+
+  .gallery-item:hover .gallery-text {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
   }
 
   /* Fixed size container styles */
@@ -348,17 +399,20 @@ button:active {
 
   /* Header Styles */
    #header-container {
-    background: black;
-    position: fixed;
-    width: 100%;
-    z-index: 50;
-    padding: 10px 0;
-    box-shadow: 0 0 15px 5px rgba(75, 85, 99, 0.7); /* Glow effect */
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    position: fixed !important;
+    width: 100% !important;
+    z-index: 1000 !important; /* High enough to be above other elements */
+    padding: 10px 0 !important;
+    box-shadow: 0 0 15px 5px rgba(75, 85, 99, 0.4) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    transition: all 0.3s ease !important;
   }
 
   body {
         /* Set the background image */
-        background-image: url('static/bg1.jpg'); 
+        background-image: url('static/bg2.jpg'); 
         /* Make the background cover the entire screen */
         background-size: cover; 
         /* Center the image */
@@ -372,8 +426,8 @@ button:active {
 
   /* Glow Animation on Hover (Optional) */
   #header-container:hover {
-    box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.8); /* Stronger glow on hover */
-    transition: box-shadow 0.3s ease-in-out;
+    box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.5) !important; /* Stronger glow on hover */
+    background-color: rgba(0, 0, 0, 0.7) !important;
   }
   /* Form Input Styles */
   #signup-container .container {
@@ -422,40 +476,180 @@ button:active {
     transform: translateY(-35px);
   }
 
- /* Typewriter effect without cursor */
- @keyframes typewriter {
-            from { width: 0; }
-            to { width: 100%; }
-          }
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-          .typewriter {
-            display: inline-block;
-            overflow: hidden; /* Ensures only visible text shows */
-            white-space: nowrap; /* Prevents wrapping */
-            animation: typewriter 4s steps(30, end); /* Typewriter animation only */
-            max-width: 100%; /* Adjust as needed */
-          }
+  .fade-in {
+    animation: fadeIn 0.8s ease-in-out;
+  }
 
+  /* Nav link hover effects */
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 50%;
+    background-color: #6366f1;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
 
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  /* Typewriter effect that keeps text in place */
+  .typewriter-text {
+    position: relative;
+  }
+
+  .typewriter-text::after {
+    content: "|";
+    position: absolute;
+    right: -15px;
+    top: 0;
+    color: #6366f1;
+    animation: typewriter-cursor 0.8s infinite;
+  }
+
+  .typewriter-char {
+    visibility: hidden;
+    color: #f9fafb; /* Ensure text is visible when revealed */
+  }
+
+  .typewriter-char.visible {
+    visibility: visible;
+  }
+
+  @keyframes typewriter-cursor {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  /* Card styling without hover animation */
+  .login-card {
+    background-color: rgba(17, 24, 39, 0.8);
+  }
+  
+  /* Form input styles without animation */
+  .form-input {
+    transition: all 0.3s ease;
+  }
+  
+  .form-input:focus {
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+  }
+
+  /* Background Animated Dots */
+  .background-dots {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .dot {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(139, 92, 246, 0.5); /* Purple color with transparency */
+    filter: blur(4px);
+    box-shadow: 0 0 10px 2px rgba(139, 92, 246, 0.3);
+    opacity: 0.6;
+    z-index: -1;
+  }
+
+  .dot1 {
+    width: 15px;
+    height: 15px;
+    top: 15%;
+    left: 10%;
+    animation: floatingDot1 30s linear infinite;
+  }
+
+  .dot2 {
+    width: 20px;
+    height: 20px;
+    top: 65%;
+    left: 75%;
+    animation: floatingDot2 40s linear infinite;
+  }
+
+  .dot3 {
+    width: 12px;
+    height: 12px;
+    top: 35%;
+    left: 80%;
+    animation: floatingDot3 35s linear infinite;
+  }
+
+  @keyframes floatingDot1 {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(100px, 50px); }
+    50% { transform: translate(50px, 100px); }
+    75% { transform: translate(-50px, 50px); }
+    100% { transform: translate(0, 0); }
+  }
+
+  @keyframes floatingDot2 {
+    0% { transform: translate(0, 0); }
+    20% { transform: translate(-80px, 40px); }
+    40% { transform: translate(-40px, -60px); }
+    60% { transform: translate(60px, -40px); }
+    80% { transform: translate(40px, 80px); }
+    100% { transform: translate(0, 0); }
+  }
+
+  @keyframes floatingDot3 {
+    0% { transform: translate(0, 0); }
+    33% { transform: translate(-70px, -30px); }
+    66% { transform: translate(70px, 50px); }
+    100% { transform: translate(0, 0); }
+  }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-      const errorContainer = document.getElementById('error-container');
-      const error = errorContainer.getAttribute('data-error');
-
-      if (error) {
-          Swal.fire({
-              title: 'Login Failed',
-              text: error,
-              icon: 'error',
-              confirmButtonText: 'Try Again',
-              confirmButtonColor: '#3085d6'
-          });
-      }
-  });
+document.addEventListener('DOMContentLoaded', function() {
+    const error = "{{ error|default('')|safe }}";
+    if (error) {
+        Swal.fire({
+            title: 'Login Failed',
+            text: error,
+            icon: 'error',
+            confirmButtonText: 'Try Again',
+            confirmButtonColor: '#3085d6'
+        });
+    }
+    
+    // Typewriter effect
+    const chars = document.querySelectorAll('.typewriter-char');
+    
+    // Reset all characters to hidden
+    chars.forEach(char => {
+        char.classList.remove('visible');
+    });
+    
+    // Reveal characters one by one
+    let index = 0;
+    const typeInterval = setInterval(() => {
+        if (index < chars.length) {
+            chars[index].classList.add('visible');
+            index++;
+        } else {
+            clearInterval(typeInterval);
+        }
+    }, 100); // Adjust typing speed here
+});
 </script>
-
 
 </body>
 </html>

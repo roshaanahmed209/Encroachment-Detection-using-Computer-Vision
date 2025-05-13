@@ -10,18 +10,17 @@
   </head>
   <body>
     <!-- Header -->
-    <header id="header-container" class="text-gray-400 bg-black body-font fixed top-0 w-full z-50 shadow-md">
+    <header id="header-container" class="text-gray-400 bg-black/80 body-font fixed top-0 w-full z-50 shadow-md fade-in backdrop-blur-[15px]">
       <div class="container mx-auto flex flex-wrap p-2 items-center justify-between">
-        <a class="flex title-font font-medium items-center text-white">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-          </svg>
-          <span class="ml-3 text-xl">EncroGuard</span>
+        <a href="/home" class="flex title-font font-medium items-center text-white">
+          <span class="ml-3 text-xl hover:text-indigo-400 transition-colors duration-300">EncroGuard</span>
         </a>
         <nav class="flex flex-wrap items-center text-base justify-center">
-          <a href="/home" class="mx-4 hover:text-white">Home</a>
-          <a href="#upload-section" class="mx-4 hover:text-white">Upload Image</a>
-          <a href="/history" class="mx-4 hover:text-white">History</a>
-          <a href="/contactus" class="mx-4 hover:text-white">Contact Us</a>
+          <a href="/home" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Home</a>
+          <a href="/home#upload-section" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Upload Image</a>
+          <a href="/history" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">History</a>
+          <a href="/contactus" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Contact Us</a>
+          <a href="/logout" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Logout</a>
         </nav>
       </div>
     </header>
@@ -34,18 +33,18 @@
     </section>
 
     <!-- Main Content Section -->
-    <section class="py-16 slide-up-animation">
+    <section class="py-16 fade-in">
       <div class="container mx-auto text-center button">
-        <h2 class="text-6xl font-bold mb-4 text-gray-100 typewriter" id="typewriter-text">
-          Analyzation Complete. . .
+        <h2 class="text-6xl font-bold mb-4 text-gray-100 typewriter-text" id="typewriter-text">
+          <span class="typewriter-char">A</span><span class="typewriter-char">n</span><span class="typewriter-char">a</span><span class="typewriter-char">l</span><span class="typewriter-char">y</span><span class="typewriter-char">z</span><span class="typewriter-char">a</span><span class="typewriter-char">t</span><span class="typewriter-char">i</span><span class="typewriter-char">o</span><span class="typewriter-char">n</span><span class="typewriter-char"> </span><span class="typewriter-char">C</span><span class="typewriter-char">o</span><span class="typewriter-char">m</span><span class="typewriter-char">p</span><span class="typewriter-char">l</span><span class="typewriter-char">e</span><span class="typewriter-char">t</span><span class="typewriter-char">e</span><span class="typewriter-char">.</span><span class="typewriter-char"> </span><span class="typewriter-char">.</span><span class="typewriter-char"> </span><span class="typewriter-char">.</span>
         </h2>
       </div>
     </section>
 
     <section class="text-gray-400 body-font">
         <div class="container px-5 py-24 mx-auto flex flex-wrap">
-          <div class="flex flex-wrap w-full">
-            <div class="lg:w-2/5 md:w-1/2 md:pr-10 md:py-6">
+          <div class="flex flex-wrap w-full fade-in delay-100">
+            <div class="lg:w-1/2 md:w-1/2 md:pr-10 md:py-6">
               <div class="flex relative pb-12">
                 <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
                   <div class="h-full w-1 bg-gray-800 pointer-events-none"></div>
@@ -58,7 +57,7 @@
                 <div class="flex-grow pl-4">
                   <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Accuracy</h2>
                   <p class="leading-relaxed">
-                    {{ accuracy if accuracy is not none else "N/A" }}
+                    {{ accuracy if accuracy is not none else "N/A" }}%
                   </p>
                 </div>
               </div>
@@ -73,7 +72,7 @@
                 </div>
                 <div class="flex-grow pl-4">
                   <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Detection</h2>
-                  <p class="leading-relaxed">detected areas:</p>
+                  <p class="leading-relaxed">Detected masks: {{ num_encroachments }}</p>
                 </div>
               </div>
               <div class="flex relative pb-12">
@@ -87,9 +86,8 @@
                   </svg>
                 </div>
                 <div class="flex-grow pl-4">
-                  <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Matched File</h2>
                   <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Report generation</h2>
-                  <p class="leading-relaxed">report if detected areas or clear whatever the case</p>
+                  <p class="leading-relaxed">{% if num_encroachments > 0 %}Encroachment was detected{% else %}No encroachment detected{% endif %}</p>
                 </div>
               </div>
               <div class="flex relative pb-12">
@@ -104,7 +102,7 @@
                 </div>
                 <div class="flex-grow pl-4">
                   <h2 class="font-medium title-font text-sm text-white mb-1 tracking-wider">Saving results</h2>
-                  <p class="leading-relaxed">saving results loading animation.</p>
+                  <p class="leading-relaxed">Results saved in History tab</p>
                 </div>
               </div>
               <div class="flex relative">
@@ -120,19 +118,24 @@
                 </div>
               </div>
             </div>
-            <img id="uploaded-image" class="object-cover object-center rounded" alt="Uploaded Image" />
+            <div class="lg:w-1/2 md:w-1/2 flex justify-center items-center fade-in delay-200">
+              <div class="image-container hover:shadow-lg transition-all duration-300">
+                <img id="uploaded-image" class="result-image rounded" 
+                   src="data:image/png;base64,{{ overlay_image }}" alt="Analysis Result" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
 
-    <footer class="text-gray-400 bg-black body-font">
+    <footer class="text-gray-400 bg-black body-font fade-in">
       <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
         <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
-          <span class="ml-3 text-xl">EncroGuard</span>
+          <span class="ml-3 text-xl hover:text-indigo-400 transition-colors duration-300">EncroGuard</span>
         </a>
         <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">Ai based Detection System —
-          <a class="text-gray-500 ml-1" target="_blank" rel="noopener noreferrer">
+          <a class="text-gray-500 ml-1 hover:text-indigo-400 transition-colors duration-300" target="_blank" rel="noopener noreferrer">
             Follow the Law<br>
             Not the Flaw
           </a>
@@ -140,186 +143,315 @@
       </div>
     </footer>  
 
+    <!-- Add animated background dots -->
+    <div class="background-dots">
+      <div class="dot dot1"></div>
+      <div class="dot dot2"></div>
+      <div class="dot dot3"></div>
+    </div>
 
       <style>
-
         body {
-              /* Set the background image */
-              background-image: url('static/bg1.jpg'); 
-              /* Make the background cover the entire screen */
-              background-size: cover; 
-              /* Center the image */
-              background-position: center; 
-              /* Prevent scrolling the background */
-              background-attachment: fixed;
-              height: 100vh; /* Full viewport height */
-              margin: 0; /* Remove default margin */
-            }
+          /* Set the background image */
+          background-image: url('static/bg2.jpg'); 
+          /* Make the background cover the entire screen */
+          background-size: cover; 
+          /* Center the image */
+          background-position: center; 
+          /* Prevent scrolling the background */
+          background-attachment: fixed;
+          height: 100vh; /* Full viewport height */
+          margin: 0; /* Remove default margin */
+        }
         
-        /* Slide-Up Animation */
+        /* Header Styles with Blur Effect */
+        #header-container {
+          background-color: rgba(0, 0, 0, 0.6) !important;
+          position: fixed !important;
+          width: 100% !important;
+          z-index: 50 !important;
+          padding: 10px 0 !important;
+          box-shadow: 0 0 15px 5px rgba(75, 85, 99, 0.4) !important;
+          backdrop-filter: blur(15px) !important;
+          -webkit-backdrop-filter: blur(15px) !important;
+          transition: all 0.3s ease !important;
+        }
+
+        #header-container:hover {
+          box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.5) !important;
+          background-color: rgba(0, 0, 0, 0.7) !important;
+        }
+        
+        /* Image container styles */
+        .image-container {
+          width: 100%;
+          max-width: 600px;
+          height: 450px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(0, 0, 0, 0.2);
+          border-radius: 0.5rem;
+          overflow: hidden;
+          box-shadow: 0 0 15px rgba(75, 85, 99, 0.5);
+          transition: all 0.3s ease;
+        }
+
+        .image-container:hover {
+          transform: scale(1.02);
+          box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .result-image {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          padding: 10px;
+          transition: transform 0.3s ease;
+        }
+        
+        /* Animation keyframes */
         @keyframes slideUp {
-           0% {
-             transform: translateY(20px);
-             opacity: 0;
-           }
-           100% {
-             transform: translateY(0);
-             opacity: 1;
-           }
-         }
+          0% {
+            transform: translateY(20px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes fadeIn {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+
+        @keyframes floatUp {
+          0% {
+            transform: translateY(20px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
        
-         .leaflet-top.leaflet-left {
-             margin-top: 80px; /* Adjust the value based on your header height */
-         }
-           .leaflet-control-attribution {
-             margin-bottom: 40px; /* Add margin to avoid overlap with content */
-         }
-         .slide-up-animation {
-           animation: slideUp 1s ease-out;
-         }
+        .leaflet-top.leaflet-left {
+          margin-top: 30px; /* Adjust the value based on your header height */
+        }
+        .leaflet-control-attribution {
+          margin-bottom: 100px; /* Add margin to avoid overlap with content */
+        }
+        
+        .slide-up-animation {
+          animation: slideUp 1s ease-out;
+        }
+        
+        .fade-in {
+          animation: fadeIn 1s ease-out forwards;
+        }
+        
+        .float-up {
+          animation: floatUp 1s ease-out forwards;
+        }
+        
+        .delay-100 {
+          animation-delay: 0.1s;
+        }
+        
+        .delay-200 {
+          animation-delay: 0.2s;
+        }
+        
+        .delay-300 {
+          animation-delay: 0.3s;
+        }
        
         button {
-         height: 50px;
-         margin: 5px;
-         width: 150px;
-         background: #333;
-         -webkit-box-pack: center;
-         -ms-flex-pack: center;
-         justify-content: center;
-         cursor: pointer;
-         -webkit-box-align: center;
-         -ms-flex-align: center;
-         align-items: center;
-         font-family: Consolas, Courier New, monospace;
-         border: solid #404c5d 1px;
-         font-size: 16px;
-         color: rgb(161, 161, 161);
-         -webkit-transition: 500ms;
-         transition: 500ms;
-         border-radius: 5px;
-         background: linear-gradient(145deg, #2e2d2d, #212121);
-         -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
-           inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
-         box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
-           inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
-       }
+          height: 50px;
+          margin: 5px;
+          width: 150px;
+          background: #333;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+          cursor: pointer;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          font-family: Consolas, Courier New, monospace;
+          border: solid #404c5d 1px;
+          font-size: 16px;
+          color: rgb(161, 161, 161);
+          -webkit-transition: 500ms;
+          transition: 500ms;
+          border-radius: 5px;
+          background: linear-gradient(145deg, #2e2d2d, #212121);
+          -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+            inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+          box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+            inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+        }
        
-       button:hover {
-         -webkit-box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
-         box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
-         color: #d6d6d6;
-         -webkit-transition: 500ms;
-         transition: 500ms;
-       }
+        button:hover {
+          -webkit-box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
+          box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
+          color: #d6d6d6;
+          -webkit-transition: 500ms;
+          transition: 500ms;
+        }
        
-       button:active {
-         -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
-         box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
-         color: #d6d6d6;
-         -webkit-transition: 100ms;
-         transition: 100ms;
-       }
-       
-       
-         /* Header Styles */
-         #header-container {
-            background: black;
-            position: fixed;
-            width: 100%;
-            z-index: 1000; /* High enough to be above other elements */
-            padding: 10px 0;
-            box-shadow: 0 0 15px 5px rgba(75, 85, 99, 0.7);
+        button:active {
+          -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+          box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+          color: #d6d6d6;
+          -webkit-transition: 100ms;
+          transition: 100ms;
+        }
+        
+        /* Background dots animation */
+        .background-dots {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          z-index: -1;
+          pointer-events: none;
+        }
+        
+        .dot {
+          position: absolute;
+          border-radius: 50%;
+          background: rgba(139, 92, 246, 0.5); /* Purple color with transparency */
+          filter: blur(4px);
+          box-shadow: 0 0 10px 2px rgba(139, 92, 246, 0.3);
+          opacity: 0.6;
+          z-index: -1;
+        }
+        
+        .dot1 {
+          width: 15px;
+          height: 15px;
+          top: 15%;
+          left: 10%;
+          animation: floatingDot1 30s linear infinite;
+        }
+        
+        .dot2 {
+          width: 20px;
+          height: 20px;
+          top: 65%;
+          left: 75%;
+          animation: floatingDot2 40s linear infinite;
+        }
+        
+        .dot3 {
+          width: 12px;
+          height: 12px;
+          top: 35%;
+          left: 80%;
+          animation: floatingDot3 35s linear infinite;
+        }
+        
+        @keyframes floatingDot1 {
+          0% { transform: translate(0, 0); }
+          25% { transform: translate(100px, 50px); }
+          50% { transform: translate(50px, 100px); }
+          75% { transform: translate(-50px, 50px); }
+          100% { transform: translate(0, 0); }
         }
 
-            /* Add padding to the map section to avoid overlap */
-        #map-section {
-            padding-top: 100px; /* Adjust to match the header height */
-            /* background-color: #1f2937; Same as current section background for consistency */
+        @keyframes floatingDot2 {
+          0% { transform: translate(0, 0); }
+          20% { transform: translate(-80px, 40px); }
+          40% { transform: translate(-40px, -60px); }
+          60% { transform: translate(60px, -40px); }
+          80% { transform: translate(40px, 80px); }
+          100% { transform: translate(0, 0); }
         }
-         /* Glow Animation on Hover (Optional) */
-         #header-container:hover {
-           box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.8); /* Stronger glow on hover */
-           transition: box-shadow 0.3s ease-in-out;
-         }
-         /* Form Input Styles */
-         #signup-container .container {
-           display: flex;
-           flex-direction: column;
-           gap: 7px;
-           position: relative;
-           color: white;
-         }
-       
-         #signup-container .label {
-           font-size: 15px;
-           padding-left: 10px;
-           position: absolute;
-           top: 13px;
-           transition: 0.3s;
-           pointer-events: none;
-         }
-       
-         #signup-container .input {
-           width: 100%;
-           height: 45px;
-           border: none;
-           outline: none;
-           padding: 0px 10px;
-           border-radius: 6px;
-           color: #fff;
-           font-size: 15px;
-           background-color: transparent;
-           box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
-                       -1px -1px 6px rgba(255, 255, 255, 0.4);
-         }
-       
-         #signup-container .input:focus,
-         #signup-container .input:valid {
-           box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
-                       -1px -1px 6px rgba(255, 255, 255, 0.4),
-                       inset 3px 3px 10px rgba(0, 0, 0, 1),
-                       inset -1px -1px 6px rgba(255, 255, 255, 0.4);
-         }
-       
-         #signup-container .input:focus ~ .label,
-         #signup-container .input:valid ~ .label {
-           transition: 0.3s;
-           padding-left: 2px;
-           transform: translateY(-35px);
-         }
 
+        @keyframes floatingDot3 {
+          0% { transform: translate(0, 0); }
+          33% { transform: translate(-70px, -30px); }
+          66% { transform: translate(70px, 50px); }
+          100% { transform: translate(0, 0); }
+        }
+        
+        /* Nav link animation */
+        .nav-link::after {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 2px;
+          bottom: -4px;
+          left: 0;
+          background-color: #6366f1;
+          transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+          width: 100%;
+        }
+        
+        /* Typewriter effect that keeps text in place */
+        .typewriter-text {
+          position: relative;
+        }
 
-          /* Typewriter effect without cursor */
-          @keyframes typewriter {
-            from { width: 0; }
-            to { width: 100%; }
-          }
+        .typewriter-text::after {
+          content: "|";
+          position: absolute;
+          right: -15px;
+          top: 0;
+          color: #6366f1;
+          animation: typewriter-cursor 0.8s infinite;
+        }
 
-          .typewriter {
-            display: inline-block;
-            overflow: hidden; /* Ensures only visible text shows */
-            white-space: nowrap; /* Prevents wrapping */
-            animation: typewriter 4s steps(30, end); /* Typewriter animation only */
-            max-width: 100%; /* Adjust as needed */
-          }
+        .typewriter-char {
+          visibility: hidden;
+          color: #f9fafb; /* Ensure text is visible when revealed */
+        }
 
+        .typewriter-char.visible {
+          visibility: visible;
+        }
 
-       </style>
-       
-
-       <script>
-        window.onload = function() {
-          var uploadedImage = localStorage.getItem("uploadedImage");
+        @keyframes typewriter-cursor {
+          0% { opacity: 1; }
+          50% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+      </style>
       
-          // Check if the image exists in localStorage and display it
-          if (uploadedImage) {
-            var imageElement = document.getElementById("uploaded-image");
-            imageElement.src = uploadedImage;
-          }
-        }
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          // Typewriter effect
+          const chars = document.querySelectorAll('.typewriter-char');
+          
+          // Reset all characters to hidden
+          chars.forEach(char => {
+            char.classList.remove('visible');
+          });
+          
+          // Reveal characters one by one
+          let index = 0;
+          const typeInterval = setInterval(() => {
+            if (index < chars.length) {
+              chars[index].classList.add('visible');
+              index++;
+            } else {
+              clearInterval(typeInterval);
+            }
+          }, 100); // Adjust typing speed here
+        });
       </script>
-
-
-
-</body>
+    </body>
 </html>

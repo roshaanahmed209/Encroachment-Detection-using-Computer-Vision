@@ -10,18 +10,17 @@
   </head>
   <body>
     <!-- Header -->
-    <header id="header-container" class="text-gray-400 bg-black body-font fixed top-0 w-full z-50 shadow-md">
+    <header id="header-container" class="text-gray-400 bg-black/80 body-font fixed top-0 w-full z-50 shadow-md fade-in backdrop-blur-[15px]">
       <div class="container mx-auto flex flex-wrap p-2 items-center justify-between">
-        <a class="flex title-font font-medium items-center text-white">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-          </svg>
-          <span class="ml-3 text-xl">EncroGuard</span>
+        <a href="/home" class="flex title-font font-medium items-center text-white">
+          <span class="ml-3 text-xl hover:text-indigo-400 transition-colors duration-300">EncroGuard</span>
         </a>
         <nav class="flex flex-wrap items-center text-base justify-center">
-          <a href="/home" class="mx-4 hover:text-white">Home</a>
-          <a href="#upload-section" class="mx-4 hover:text-white">Upload Image</a>
-          <a href="/history" class="mx-4 hover:text-white">History</a>
-          <a href="/contactus" class="mx-4 hover:text-white">Contact Us</a>
+          <a href="/home" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Home</a>
+          <a href="#upload-section" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link" id="nav-upload-link">Upload Image</a>
+          <a href="/history" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">History</a>
+          <a href="/contactus" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Contact Us</a>
+          <a href="/logout" class="mx-4 hover:text-indigo-400 transition-colors duration-300 relative nav-link">Logout</a>
         </nav>
       </div>
     </header>
@@ -34,69 +33,60 @@
     </section>
 
     <!-- Main Content Section -->
-    <section class="py-16 slide-up-animation">
+    <section class="py-16">
       <div class="container mx-auto text-center button">
-        <h2 class="text-6xl font-bold mb-4 text-gray-100 typewriter" id="typewriter-text">
-          Monitor and Detect Encroachments
+        <h2 class="text-6xl font-bold mb-4 text-gray-100 typewriter-text" id="typewriter-text">
+          <span class="typewriter-char">M</span><span class="typewriter-char">o</span><span class="typewriter-char">n</span><span class="typewriter-char">i</span><span class="typewriter-char">t</span><span class="typewriter-char">o</span><span class="typewriter-char">r</span><span class="typewriter-char"> </span><span class="typewriter-char">a</span><span class="typewriter-char">n</span><span class="typewriter-char">d</span><span class="typewriter-char"> </span><span class="typewriter-char">D</span><span class="typewriter-char">e</span><span class="typewriter-char">t</span><span class="typewriter-char">e</span><span class="typewriter-char">c</span><span class="typewriter-char">t</span><span class="typewriter-char"> </span><span class="typewriter-char">E</span><span class="typewriter-char">n</span><span class="typewriter-char">c</span><span class="typewriter-char">r</span><span class="typewriter-char">o</span><span class="typewriter-char">a</span><span class="typewriter-char">c</span><span class="typewriter-char">h</span><span class="typewriter-char">m</span><span class="typewriter-char">e</span><span class="typewriter-char">n</span><span class="typewriter-char">t</span><span class="typewriter-char">s</span>
         </h2>
-        <p class="text-gray-400 mb-4">
+        <p class="text-gray-400 mb-4 float-up delay-200">
           A smart tool to identify and analyze encroachment areas in real-time.
         </p>
       </div>
     </section>
 
-
-
-
-
     <!-- Upload Image Section -->
     <!-- Assign the ID "upload-section" to this section -->
     <section id="upload-section" class="text-gray-400 body-font">
       <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-        <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+        <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center fade-in">
           <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-white">
             Upload Your Image to Uncover 
             <br class="hidden lg:inline-block">Hidden Encroachments Instantly!
           </h1>
-          <p class="mb-8 leading-relaxed">
+          <p class="mb-8 leading-relaxed delay-100">
             Powered by advanced machine learning for accurate detection and analysis. Once the image is uploaded we will take some time to process, analyze, and detect. Please be patient.
           </p>
-          <div class="flex justify-center">
+          <div class="flex justify-center float-up delay-200">
             <!-- Upload Image Button -->
             <button 
               onclick="document.getElementById('file-upload').click();" 
-              class="inline-flex text-white bg-indigo-500 border-0 py-2 px-12 focus:outline-none hover:bg-indigo-600 rounded text-lg w-1/10 sm:w-48 md:w-56">
+              class="inline-flex text-white bg-indigo-500 border-0 py-2 px-12 focus:outline-none hover:bg-indigo-600 hover:scale-105 transition-all duration-300 rounded text-lg w-1/10 sm:w-48 md:w-56">
               Upload Image
             </button>
+          
             <input id="file-upload" type="file" accept="image/*" class="hidden" onchange="previewImage(event)" />
-            
+          
             <!-- Proceed Button -->
-            <button 
-              class="proceed-btn">
+            <button class="proceed-btn hover:scale-105 transition-all duration-300">
               Proceed
             </button>
           </div>
         </div>
         
-        <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+        <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 scale-in delay-300">
           <!-- Image Preview Section -->
-          <img id="uploaded-image" class="object-cover object-center rounded" alt="Uploaded Image" src="https://dummyimage.com/720x600" />
+          <img id="uploaded-image" class="object-cover object-center rounded shadow-xl transition-all duration-300" alt="Uploaded Image" src="https://dummyimage.com/720x600" />
         </div>
       </div>
     </section>
 
-    
-
-
-
-
-    <footer class="text-gray-400 bg-black body-font">
+    <footer class="text-gray-400 bg-black body-font fade-in">
       <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
         <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
-          <span class="ml-3 text-xl">EncroGuard</span>
+          <span class="ml-3 text-xl hover:text-indigo-400 transition-colors duration-300">EncroGuard</span>
         </a>
         <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">Ai based Detection System —
-          <a class="text-gray-500 ml-1" target="_blank" rel="noopener noreferrer">
+          <a class="text-gray-500 ml-1 hover:text-indigo-400 transition-colors duration-300" target="_blank" rel="noopener noreferrer">
             Follow the Law<br>
             Not the Flaw
           </a>
@@ -104,260 +94,468 @@
       </div>
     </footer>  
 
+    <!-- Add animated background dots -->
+    <div class="background-dots">
+      <div class="dot dot1"></div>
+      <div class="dot dot2"></div>
+      <div class="dot dot3"></div>
+    </div>
 
-      <style>
+    <style>
+      body {
+        /* Set the background image */
+        background-image: url('static/bg2.jpg'); 
+        /* Make the background cover the entire screen */
+        background-size: cover; 
+        /* Center the image */
+        background-position: center; 
+        /* Prevent scrolling the background */
+        background-attachment: fixed;
+        height: 100vh; /* Full viewport height */
+        margin: 0; /* Remove default margin */
+      }
+      
+      /* Header Styles with Blur Effect */
+      #header-container {
+        background-color: rgba(0, 0, 0, 0.6) !important;
+        position: fixed !important;
+        width: 100% !important;
+        z-index: 50 !important;
+        padding: 10px 0 !important;
+        box-shadow: 0 0 15px 5px rgba(75, 85, 99, 0.4) !important;
+        backdrop-filter: blur(15px) !important;
+        -webkit-backdrop-filter: blur(15px) !important;
+        transition: all 0.3s ease !important;
+      }
 
-        body {
-              /* Set the background image */
-              background-image: url('static/bg1.jpg'); 
-              /* Make the background cover the entire screen */
-              background-size: cover; 
-              /* Center the image */
-              background-position: center; 
-              /* Prevent scrolling the background */
-              background-attachment: fixed;
-              height: 100vh; /* Full viewport height */
-              margin: 0; /* Remove default margin */
-            }
-        
-        /* Slide-Up Animation */
-        @keyframes slideUp {
-           0% {
-             transform: translateY(20px);
-             opacity: 0;
-           }
-           100% {
-             transform: translateY(0);
-             opacity: 1;
-           }
-         }
-       
-         .leaflet-top.leaflet-left {
-             margin-top: 80px; /* Adjust the value based on your header height */
-         }
-           .leaflet-control-attribution {
-             margin-bottom: 40px; /* Add margin to avoid overlap with content */
-         }
-         .slide-up-animation {
-           animation: slideUp 1s ease-out;
-         }
-       
-        button {
-         height: 50px;
-         margin: 5px;
-         width: 150px;
-         background: #333;
-         -webkit-box-pack: center;
-         -ms-flex-pack: center;
-         justify-content: center;
-         cursor: pointer;
-         -webkit-box-align: center;
-         -ms-flex-align: center;
-         align-items: center;
-         font-family: Consolas, Courier New, monospace;
-         border: solid #404c5d 1px;
-         font-size: 16px;
-         color: rgb(161, 161, 161);
-         -webkit-transition: 500ms;
-         transition: 500ms;
-         border-radius: 5px;
-         background: linear-gradient(145deg, #2e2d2d, #212121);
-         -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
-           inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
-         box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
-           inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
-       }
-       
-       button:hover {
-         -webkit-box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
-         box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
-         color: #d6d6d6;
-         -webkit-transition: 500ms;
-         transition: 500ms;
-       }
-       
-       button:active {
-         -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
-         box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
-         color: #d6d6d6;
-         -webkit-transition: 100ms;
-         transition: 100ms;
-       }
-
-       .proceed-btn {
-        height: 50px;
-        margin: 5px;
-        width: 150px;
-        background: #333;
-        justify-content: center;
-        cursor: pointer;
-        align-items: center;
-        font-family: Consolas, Courier New, monospace;
-        border: solid #404c5d 1px;
-        font-size: 16px;
-        color: rgb(161, 161, 161);
-        -webkit-transition: 500ms;
-        transition: 500ms;
-        border-radius: 5px;
-        background: linear-gradient(145deg, #2e2d2d, #212121);
-        -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
-            inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
-        box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
-            inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+      #header-container:hover {
+        box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.5) !important;
+        background-color: rgba(0, 0, 0, 0.7) !important;
+      }
+      
+      /* Slide-Up Animation */
+      @keyframes slideUp {
+        0% {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+    
+      .leaflet-top.leaflet-left {
+        margin-top: 80px; /* Adjust the value based on your header height */
+      }
+        .leaflet-control-attribution {
+          margin-bottom: 40px; /* Add margin to avoid overlap with content */
+      }
+      .slide-up-animation {
+        animation: slideUp 1s ease-out;
+      }
+    
+     button {
+      height: 50px;
+      margin: 5px;
+      width: 150px;
+      background: #333;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      cursor: pointer;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      font-family: Consolas, Courier New, monospace;
+      border: solid #404c5d 1px;
+      font-size: 16px;
+      color: rgb(161, 161, 161);
+      -webkit-transition: 500ms;
+      transition: 500ms;
+      border-radius: 5px;
+      background: linear-gradient(145deg, #2e2d2d, #212121);
+      -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+        inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+      box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+        inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+    }
+    
+    button:hover {
+      -webkit-box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
+      box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
+      color: #d6d6d6;
+      -webkit-transition: 500ms;
+      transition: 500ms;
+    }
+    
+    button:active {
+      -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+      box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+      color: #d6d6d6;
+      -webkit-transition: 100ms;
+      transition: 100ms;
     }
 
-    .proceed-btn:hover {
-        -webkit-box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
-        box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
-        color: #d6d6d6;
-        -webkit-transition: 500ms;
-        transition: 500ms;
+    .proceed-btn {
+     height: 50px;
+     margin: 5px;
+     width: 150px;
+     background: #333;
+     justify-content: center;
+     cursor: pointer;
+     align-items: center;
+     font-family: Consolas, Courier New, monospace;
+     border: solid #404c5d 1px;
+     font-size: 16px;
+     color: rgb(161, 161, 161);
+     -webkit-transition: 500ms;
+     transition: 500ms;
+     border-radius: 5px;
+     background: linear-gradient(145deg, #2e2d2d, #212121);
+     -webkit-box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+         inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+     box-shadow: -1px -5px 15px #41465b, 5px 5px 15px #41465b,
+         inset 5px 5px 10px #212121, inset -5px -5px 10px #212121;
+ }
+
+ .proceed-btn:hover {
+     -webkit-box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
+     box-shadow: 1px 1px 13px rgba(99, 102, 241, 0.8), -1px -1px 13px #545b78;
+     color: #d6d6d6;
+     -webkit-transition: 500ms;
+     transition: 500ms;
+ }
+
+ .proceed-btn:active {
+     -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+     box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
+     color: #d6d6d6;
+     -webkit-transition: 100ms;
+     transition: 100ms;
+ }
+
+       
+    
+     /* Header Style Customizations - Extra Padding */
+    #map-section {
+        padding-top: 100px; /* Adjust to match the header height */
     }
 
-    .proceed-btn:active {
-        -webkit-box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
-        box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
-        color: #d6d6d6;
-        -webkit-transition: 100ms;
-        transition: 100ms;
+     /* Form Input Styles */
+     #signup-container .container {
+       display: flex;
+       flex-direction: column;
+       gap: 7px;
+       position: relative;
+       color: white;
+     }
+   
+     #signup-container .label {
+       font-size: 15px;
+       padding-left: 10px;
+       position: absolute;
+       top: 13px;
+       transition: 0.3s;
+       pointer-events: none;
+     }
+   
+     #signup-container .input {
+       width: 100%;
+       height: 45px;
+       border: none;
+       outline: none;
+       padding: 0px 10px;
+       border-radius: 6px;
+       color: #fff;
+       font-size: 15px;
+       background-color: transparent;
+       box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+                   -1px -1px 6px rgba(255, 255, 255, 0.4);
+     }
+   
+     #signup-container .input:focus,
+     #signup-container .input:valid {
+       box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
+                   -1px -1px 6px rgba(255, 255, 255, 0.4),
+                   inset 3px 3px 10px rgba(0, 0, 0, 1),
+                   inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+     }
+   
+     #signup-container .input:focus ~ .label,
+     #signup-container .input:valid ~ .label {
+       transition: 0.3s;
+       padding-left: 2px;
+       transform: translateY(-35px);
+     }
+
+
+      /* Typewriter effect that keeps text in place */
+      .typewriter-text {
+        position: relative;
+      }
+
+      .typewriter-text::after {
+        content: "|";
+        position: absolute;
+        right: -15px;
+        top: 0;
+        color: #6366f1;
+        animation: typewriter-cursor 0.8s infinite;
+      }
+
+      .typewriter-char {
+        visibility: hidden;
+        color: #f9fafb; /* Ensure text is visible when revealed */
+      }
+
+      .typewriter-char.visible {
+        visibility: visible;
+      }
+
+      @keyframes typewriter-cursor {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+
+    /* Additional animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
+    @keyframes floatUp {
+      0% { transform: translateY(10px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      0% { transform: scale(0.95); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .float-up {
+      animation: floatUp 0.8s ease-out;
+    }
+
+    .scale-in {
+      animation: scaleIn 0.6s ease-out;
+    }
+
+    /* Apply staggered animation delays */
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+
+    /* Nav link hover effects */
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 50%;
+      background-color: #6366f1;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Background Animated Dots */
+    .background-dots {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .dot {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(139, 92, 246, 0.5); /* Purple color with transparency */
+      filter: blur(4px);
+      box-shadow: 0 0 10px 2px rgba(139, 92, 246, 0.3);
+      opacity: 0.6;
+      z-index: -1;
+    }
+
+    .dot1 {
+      width: 15px;
+      height: 15px;
+      top: 15%;
+      left: 10%;
+      animation: floatingDot1 30s linear infinite;
+    }
+
+    .dot2 {
+      width: 20px;
+      height: 20px;
+      top: 65%;
+      left: 75%;
+      animation: floatingDot2 40s linear infinite;
+    }
+
+    .dot3 {
+      width: 12px;
+      height: 12px;
+      top: 35%;
+      left: 80%;
+      animation: floatingDot3 35s linear infinite;
+    }
+
+    @keyframes floatingDot1 {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(100px, 50px); }
+      50% { transform: translate(50px, 100px); }
+      75% { transform: translate(-50px, 50px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @keyframes floatingDot2 {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-80px, 40px); }
+      40% { transform: translate(-40px, -60px); }
+      60% { transform: translate(60px, -40px); }
+      80% { transform: translate(40px, 80px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @keyframes floatingDot3 {
+      0% { transform: translate(0, 0); }
+      33% { transform: translate(-70px, -30px); }
+      66% { transform: translate(70px, 50px); }
+      100% { transform: translate(0, 0); }
+    }
+
+   </style>
+   
+   <script>
+    // Global variables to store the uploaded image data
+    let uploadedImageData = null;
+    let uploadedFileName = null;
+
+    // Preview the selected image
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      // Store the filename
+      uploadedFileName = file.name;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        // Store the image data
+        uploadedImageData = e.target.result;
+        // Display the preview
+        document.getElementById('uploaded-image').src = uploadedImageData;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Handle navigation link click to clear temp directories
+    document.addEventListener('DOMContentLoaded', function() {
+      // Typewriter effect
+      const chars = document.querySelectorAll('.typewriter-char');
+      
+      // Reset all characters to hidden
+      chars.forEach(char => {
+        char.classList.remove('visible');
+      });
+      
+      // Reveal characters one by one
+      let index = 0;
+      const typeInterval = setInterval(() => {
+        if (index < chars.length) {
+          chars[index].classList.add('visible');
+          index++;
+        } else {
+          clearInterval(typeInterval);
+        }
+      }, 100); // Adjust typing speed here
+
+      const navUploadLink = document.getElementById('nav-upload-link');
+      if (navUploadLink) {
+        navUploadLink.addEventListener('click', function(e) {
+          // Don't prevent default so the link still works
           
-       
-         /* Header Styles */
-         #header-container {
-            background: black;
-            position: fixed;
-            width: 100%;
-            z-index: 1000; /* High enough to be above other elements */
-            padding: 10px 0;
-            box-shadow: 0 0 15px 5px rgba(75, 85, 99, 0.7);
-        }
-
-            /* Add padding to the map section to avoid overlap */
-        #map-section {
-            padding-top: 100px; /* Adjust to match the header height */
-            /* background-color: #1f2937; Same as current section background for consistency */
-        }
-         /* Glow Animation on Hover (Optional) */
-         #header-container:hover {
-           box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.8); /* Stronger glow on hover */
-           transition: box-shadow 0.3s ease-in-out;
-         }
-         /* Form Input Styles */
-         #signup-container .container {
-           display: flex;
-           flex-direction: column;
-           gap: 7px;
-           position: relative;
-           color: white;
-         }
-       
-         #signup-container .label {
-           font-size: 15px;
-           padding-left: 10px;
-           position: absolute;
-           top: 13px;
-           transition: 0.3s;
-           pointer-events: none;
-         }
-       
-         #signup-container .input {
-           width: 100%;
-           height: 45px;
-           border: none;
-           outline: none;
-           padding: 0px 10px;
-           border-radius: 6px;
-           color: #fff;
-           font-size: 15px;
-           background-color: transparent;
-           box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
-                       -1px -1px 6px rgba(255, 255, 255, 0.4);
-         }
-       
-         #signup-container .input:focus,
-         #signup-container .input:valid {
-           box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
-                       -1px -1px 6px rgba(255, 255, 255, 0.4),
-                       inset 3px 3px 10px rgba(0, 0, 0, 1),
-                       inset -1px -1px 6px rgba(255, 255, 255, 0.4);
-         }
-       
-         #signup-container .input:focus ~ .label,
-         #signup-container .input:valid ~ .label {
-           transition: 0.3s;
-           padding-left: 2px;
-           transform: translateY(-35px);
-         }
-
-
-          /* Typewriter effect without cursor */
-          @keyframes typewriter {
-            from { width: 0; }
-            to { width: 100%; }
-          }
-
-          .typewriter {
-            display: inline-block;
-            overflow: hidden; /* Ensures only visible text shows */
-            white-space: nowrap; /* Prevents wrapping */
-            animation: typewriter 4s steps(30, end); /* Typewriter animation only */
-            max-width: 100%; /* Adjust as needed */
-          }
-
-
-       </style>
-       
-       <script>
-        function previewImage(event) {
-          var reader = new FileReader();
-          reader.onload = function() {
-            var output = document.getElementById('uploaded-image');
-            output.src = reader.result; // Set the uploaded image as the source
-      
-            // Store the image data in localStorage
-            localStorage.setItem("uploadedImage", reader.result);
-          };
-          reader.readAsDataURL(event.target.files[0]);
-        }
-
-        async function processImage() {
-            try {
-                const image = localStorage.getItem("uploadedImage");
-                if (!image) {
-                    alert("Please upload an image first");
-                    return;
-                }
-                
-                // Send the image to the backend
-                const response = await fetch('/upload', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ image: image })
-                });
-
-                const result = await response.json();
-                
-                if (result.success) {
-                    // Redirect to loading page after successful upload
-                    window.location.href = '/loading';
-                } else {
-                    alert("Error: " + result.error);
-                }
-            } catch (error) {
-                console.error("Error processing image:", error);
-                alert("Error uploading image. Please try again.");
+          // Call the clear_temp endpoint
+          fetch('/clear_temp', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
             }
-        }
-
-        document.querySelector('.proceed-btn').addEventListener('click', processImage);
-
-
-
-      </script>
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Temp directories cleared:', data);
+          })
+          .catch(error => {
+            console.error('Error clearing temp directories:', error);
+          });
+        });
+      }
       
+      // Handle the proceed button click
+      document.querySelector('.proceed-btn').addEventListener('click', function() {
+        if (!uploadedImageData) {
+          alert('Please upload an image first.');
+          return;
+        }
+        
+        // Show a loading spinner or message
+        document.querySelector('.proceed-btn').textContent = 'Processing...';
+        document.querySelector('.proceed-btn').disabled = true;
+        
+        // Send the image data to the server
+        fetch('/upload', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            image: uploadedImageData,
+            filename: uploadedFileName
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            if (data.redirect) {
+              // Redirect to the loading page if specified
+              window.location.href = data.redirect;
+            } else {
+              // Otherwise, redirect to the loading page to wait for processing
+              window.location.href = '/loading';
+            }
+          } else {
+            alert('Error: ' + (data.error || 'Failed to upload image'));
+            document.querySelector('.proceed-btn').textContent = 'Proceed';
+            document.querySelector('.proceed-btn').disabled = false;
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to upload image. Please try again.');
+          document.querySelector('.proceed-btn').textContent = 'Proceed';
+          document.querySelector('.proceed-btn').disabled = false;
+        });
+      });
+    });
+</script>
+  
 </body>
 </html>

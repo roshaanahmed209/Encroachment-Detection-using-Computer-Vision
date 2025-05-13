@@ -13,14 +13,16 @@ def delete_all_files_recursive(folder_path):
     else:
         print(f"Folder not found: {folder_path}")
 
-def main():
+def main_trash():
     folders = [
         r"H:\fyp\from_web_1",
         r"H:\fyp\matched",
-        r"H:\fyp\resultant"
+        r"H:\fyp\resultant",
+        # r"H:\fyp\History"
+
     ]
     for folder in folders:
         delete_all_files_recursive(folder)
 
 if __name__ == "__main__":
-    main()
+    main_trash()
