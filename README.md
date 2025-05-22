@@ -12,6 +12,10 @@ It’s built to help automate what would traditionally be a time-consuming, manu
 
 ---
 
+## 📽️ Demo Video
+
+https://drive.google.com/file/d/19aXARCHg3KEfcMT4dTZ_yJwC3UzIK1pv/view?usp=sharing
+
 ## 💡 Key Features
 
 ✅ Upload Google Maps image and official sitemap  
